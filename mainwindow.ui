@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>400</height>
+    <width>420</width>
+    <height>450</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -40,195 +40,365 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>400</width>
-         <height>341</height>
+         <width>420</width>
+         <height>408</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout_2">
-        <item row="1" column="0">
+        <item row="0" column="0">
          <widget class="QTabWidget" name="tabWidget">
           <property name="currentIndex">
-           <number>0</number>
+           <number>2</number>
           </property>
-          <widget class="QWidget" name="tab">
+          <widget class="QWidget" name="tabAuthor">
            <attribute name="title">
-            <string>Tab 1</string>
+            <string>Author</string>
            </attribute>
-           <widget class="QLabel" name="labelAuthorId">
-            <property name="geometry">
-             <rect>
-              <x>20</x>
-              <y>10</y>
-              <width>59</width>
-              <height>15</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>id:</string>
-            </property>
-           </widget>
-           <widget class="QLabel" name="labelAuthorName">
-            <property name="geometry">
-             <rect>
-              <x>10</x>
-              <y>40</y>
-              <width>59</width>
-              <height>15</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Name:</string>
-            </property>
-           </widget>
-           <widget class="QLabel" name="labelAuthorSongList">
-            <property name="geometry">
-             <rect>
-              <x>10</x>
-              <y>80</y>
-              <width>59</width>
-              <height>15</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Song List:</string>
-            </property>
-           </widget>
-           <widget class="QListWidget" name="listWidgetAuthorSongList">
-            <property name="geometry">
-             <rect>
-              <x>105</x>
-              <y>71</y>
-              <width>251</width>
-              <height>121</height>
-             </rect>
-            </property>
-           </widget>
-           <widget class="QLineEdit" name="lineEdit">
-            <property name="geometry">
-             <rect>
-              <x>100</x>
-              <y>10</y>
-              <width>113</width>
-              <height>23</height>
-             </rect>
-            </property>
-           </widget>
-           <widget class="QLineEdit" name="lineEdit_2">
-            <property name="geometry">
-             <rect>
-              <x>100</x>
-              <y>40</y>
-              <width>113</width>
-              <height>23</height>
-             </rect>
-            </property>
-           </widget>
-           <widget class="QPushButton" name="pushButtonAuthorEditSong">
-            <property name="geometry">
-             <rect>
-              <x>10</x>
-              <y>160</y>
-              <width>80</width>
-              <height>23</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Edit Song</string>
-            </property>
-           </widget>
-           <widget class="QSpinBox" name="spinBox">
-            <property name="geometry">
-             <rect>
-              <x>140</x>
-              <y>260</y>
-              <width>47</width>
-              <height>24</height>
-             </rect>
-            </property>
-           </widget>
-           <widget class="QPushButton" name="pushButtonAuthorGoTo">
-            <property name="geometry">
-             <rect>
-              <x>60</x>
-              <y>260</y>
-              <width>80</width>
-              <height>23</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Go to page</string>
-            </property>
-           </widget>
-           <widget class="QPushButton" name="pushButtonAuthorLeft">
-            <property name="geometry">
-             <rect>
-              <x>120</x>
-              <y>230</y>
-              <width>41</width>
-              <height>23</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Left</string>
-            </property>
-           </widget>
-           <widget class="QPushButton" name="pushButtonAuthorRight">
-            <property name="geometry">
-             <rect>
-              <x>170</x>
-              <y>230</y>
-              <width>41</width>
-              <height>23</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Right</string>
-            </property>
-           </widget>
-           <widget class="QLabel" name="labelAuthorTotalEntries">
-            <property name="geometry">
-             <rect>
-              <x>190</x>
-              <y>260</y>
-              <width>59</width>
-              <height>15</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>TextLabel</string>
-            </property>
-           </widget>
-           <widget class="QPushButton" name="pushButtonAuthorHome">
-            <property name="geometry">
-             <rect>
-              <x>10</x>
-              <y>230</y>
-              <width>80</width>
-              <height>23</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Home</string>
-            </property>
-           </widget>
-           <widget class="QPushButton" name="pushButtonAuthorEnd">
-            <property name="geometry">
-             <rect>
-              <x>240</x>
-              <y>230</y>
-              <width>80</width>
-              <height>23</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>End</string>
-            </property>
-           </widget>
+           <layout class="QGridLayout" name="gridLayout_4">
+            <item row="0" column="0">
+             <layout class="QGridLayout" name="gridLayout_3">
+              <item row="4" column="3" colspan="2">
+               <widget class="QPushButton" name="pushButtonAuthorRight">
+                <property name="text">
+                 <string>Right</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="6">
+               <widget class="QPushButton" name="pushButtonAuthorNew">
+                <property name="text">
+                 <string>New</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="labelAuthorName">
+                <property name="text">
+                 <string>Name:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1" rowspan="2" colspan="6">
+               <widget class="QListWidget" name="listWidgetAuthorSongList"/>
+              </item>
+              <item row="5" column="4" colspan="2">
+               <widget class="QLabel" name="labelAuthorTotalEntries">
+                <property name="text">
+                 <string>Entries</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0">
+               <widget class="QLabel" name="labelAuthorId">
+                <property name="text">
+                 <string>id:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="1" colspan="2">
+               <widget class="QPushButton" name="pushButtonAuthorLeft">
+                <property name="text">
+                 <string>Left</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1" colspan="4">
+               <widget class="QLineEdit" name="lineEditAuthorId">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QPushButton" name="pushButtonAuthorEditSong">
+                <property name="text">
+                 <string>Edit Song</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1" colspan="6">
+               <widget class="QLineEdit" name="lineEditAuthorName"/>
+              </item>
+              <item row="4" column="0">
+               <widget class="QPushButton" name="pushButtonAuthorHome">
+                <property name="text">
+                 <string>Home</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="5" colspan="2">
+               <widget class="QPushButton" name="pushButtonAuthorEnd">
+                <property name="text">
+                 <string>End</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="2" colspan="2">
+               <widget class="QSpinBox" name="spinBoxAuthorPosition"/>
+              </item>
+              <item row="5" column="0" colspan="2">
+               <widget class="QPushButton" name="pushButtonAuthorGoTo">
+                <property name="text">
+                 <string>Go to page</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="labelAuthorSongList">
+                <property name="text">
+                 <string>Song List:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="6">
+               <widget class="QPushButton" name="pushButtonAuthorSave">
+                <property name="text">
+                 <string>Save</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
           </widget>
-          <widget class="QWidget" name="tab_2">
+          <widget class="QWidget" name="tabDisk">
            <attribute name="title">
-            <string>Tab 2</string>
+            <string>Disk</string>
            </attribute>
+           <layout class="QGridLayout" name="gridLayout_7">
+            <item row="0" column="0">
+             <layout class="QGridLayout" name="gridLayout_6">
+              <item row="0" column="0">
+               <widget class="QLabel" name="labelDiskId">
+                <property name="text">
+                 <string>id:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1" colspan="4">
+               <widget class="QLineEdit" name="lineEditDiskId">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="labelDiskName">
+                <property name="text">
+                 <string>Name:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="labelAuthorDiskList">
+                <property name="text">
+                 <string>Song List:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1" rowspan="2" colspan="6">
+               <widget class="QListWidget" name="listWidgetDiskSongList"/>
+              </item>
+              <item row="3" column="0">
+               <widget class="QPushButton" name="pushButtonDiskEditSong">
+                <property name="text">
+                 <string>Edit Song</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <widget class="QPushButton" name="pushButtonDiskHome">
+                <property name="text">
+                 <string>Home</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="1" colspan="2">
+               <widget class="QPushButton" name="pushButtonDiskLeft">
+                <property name="text">
+                 <string>Left</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="3" colspan="2">
+               <widget class="QPushButton" name="pushButtonDiskRight">
+                <property name="text">
+                 <string>Right</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="5" colspan="2">
+               <widget class="QPushButton" name="pushButtonDiskEnd">
+                <property name="text">
+                 <string>End</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="0" colspan="2">
+               <widget class="QPushButton" name="pushButtonDiskGoTo">
+                <property name="text">
+                 <string>Go to page</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="2" colspan="2">
+               <widget class="QSpinBox" name="spinBoxDiskPosition"/>
+              </item>
+              <item row="5" column="4" colspan="2">
+               <widget class="QLabel" name="labelDiskTotalEntries">
+                <property name="text">
+                 <string>Entries</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="6">
+               <widget class="QPushButton" name="pushButtonDiskNew">
+                <property name="text">
+                 <string>New</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1" colspan="6">
+               <widget class="QLineEdit" name="lineEditDiskName"/>
+              </item>
+              <item row="0" column="6">
+               <widget class="QPushButton" name="pushButtonDiskSave">
+                <property name="text">
+                 <string>Save</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tabSong">
+           <attribute name="title">
+            <string>Song</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_9">
+            <item row="0" column="0">
+             <layout class="QGridLayout" name="gridLayout_8">
+              <item row="2" column="1" rowspan="2" colspan="6">
+               <widget class="QListWidget" name="listWidgetSongAuthorList"/>
+              </item>
+              <item row="3" column="0">
+               <widget class="QPushButton" name="pushButtonSongEditAuthor">
+                <property name="text">
+                 <string>Edit Author</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0">
+               <widget class="QLabel" name="labelSongId">
+                <property name="text">
+                 <string>id:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="labelSongName">
+                <property name="text">
+                 <string>Name:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1" colspan="4">
+               <widget class="QLineEdit" name="lineEditSongId">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="labelSongAuthorList">
+                <property name="text">
+                 <string>Author List:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="7" column="2" colspan="2">
+               <widget class="QSpinBox" name="spinBoxSongPosition"/>
+              </item>
+              <item row="6" column="0">
+               <widget class="QPushButton" name="pushButtonSongHome">
+                <property name="text">
+                 <string>Home</string>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="1" colspan="2">
+               <widget class="QPushButton" name="pushButtonSongLeft">
+                <property name="text">
+                 <string>Left</string>
+                </property>
+               </widget>
+              </item>
+              <item row="7" column="6">
+               <widget class="QPushButton" name="pushButtonSongNew">
+                <property name="text">
+                 <string>New</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1" colspan="6">
+               <widget class="QLineEdit" name="lineEditSongName"/>
+              </item>
+              <item row="6" column="5" colspan="2">
+               <widget class="QPushButton" name="pushButtonSongEnd">
+                <property name="text">
+                 <string>End</string>
+                </property>
+               </widget>
+              </item>
+              <item row="7" column="0" colspan="2">
+               <widget class="QPushButton" name="pushButtonSongGoTo">
+                <property name="text">
+                 <string>Go to page</string>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="3" colspan="2">
+               <widget class="QPushButton" name="pushButtonSongRight">
+                <property name="text">
+                 <string>Right</string>
+                </property>
+               </widget>
+              </item>
+              <item row="7" column="4" colspan="2">
+               <widget class="QLabel" name="labelSongTotalEntries">
+                <property name="text">
+                 <string>Entries</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <widget class="QLabel" name="labelSongDiskList">
+                <property name="text">
+                 <string>Disk List:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="0">
+               <widget class="QPushButton" name="pushButtonSongEditDisk">
+                <property name="text">
+                 <string>Edit Disk</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="1" rowspan="2" colspan="6">
+               <widget class="QListWidget" name="listWidgetSongDiskList"/>
+              </item>
+              <item row="0" column="6">
+               <widget class="QPushButton" name="pushButtonSongSave">
+                <property name="text">
+                 <string>Save</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
           </widget>
          </widget>
         </item>
@@ -243,20 +413,48 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>400</width>
+     <width>420</width>
      <height>20</height>
     </rect>
    </property>
-  </widget>
-  <widget class="QToolBar" name="mainToolBar">
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
+   <widget class="QMenu" name="menuMusic_Database">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionNew_File"/>
+    <addaction name="actionOpen_File"/>
+    <addaction name="actionSave"/>
+    <addaction name="actionSave_As"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+   </widget>
+   <addaction name="menuMusic_Database"/>
+   <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionNew_File">
+   <property name="text">
+    <string>New File</string>
+   </property>
+  </action>
+  <action name="actionOpen_File">
+   <property name="text">
+    <string>Open File</string>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="text">
+    <string>Save</string>
+   </property>
+  </action>
+  <action name="actionSave_As">
+   <property name="text">
+    <string>Save As</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
