@@ -38,6 +38,10 @@ QString fileNameInput;
 QString fileNameOutput;
 QString fileNameDefaultOutput;
 
+bool AuthorEdited = false;
+bool DiskEdited = false;
+bool SongEdited = false;
+
 void MainWindow::refresh()
 {
     ui->listWidgetAuthorGoTo->clear();
@@ -330,13 +334,14 @@ void MainWindow::on_actionExit_triggered()
 }
 
 //Вкладка Авторы
-void MainWindow::on_listWidgetAuthorGoTo_doubleClicked(const QModelIndex &index) // Переход на позицию
+
+void MainWindow::AuthorGoToEdit (int index)
 {
     ui->listWidgetAuthorSongList->clear();
 
-    at = AuthorList.Move(index.row());
-    std::cout << "Author: " <<"Moving to "<< index.row() << std::endl;
-    ui->statusBar->showMessage("Author: Moving to " + QString::number(index.row()));
+    at = AuthorList.Move(index);
+    std::cout << "Author: " <<"Moving to "<< index << std::endl;
+    ui->statusBar->showMessage("Author: Moving to " + QString::number(index));
 
     AuthorId = at->data.GetId();
     AuthorName = at->data.GetName();
@@ -371,6 +376,11 @@ void MainWindow::on_listWidgetAuthorGoTo_doubleClicked(const QModelIndex &index)
     }
 }
 
+void MainWindow::on_listWidgetAuthorGoTo_doubleClicked(const QModelIndex &index) // Переход на позицию
+{
+    AuthorGoToEdit(index.row());
+}
+
 void MainWindow::on_pushButtonAuthorGoTo_clicked() // Кнопка перейти на
 {
     if (ui->listWidgetAuthorGoTo->currentIndex().row() != -1)
@@ -391,24 +401,25 @@ void MainWindow::on_lineEditAuthorSearch_textChanged(const QString &arg1) // Б�
 
 void MainWindow::on_listWidgetAuthorSongList_doubleClicked(const QModelIndex &index) // Переход из внутреннего листа
 {
-    on_listWidgetSongGoTo_doubleClicked(index);
+    SongGoToEdit(index.row());
     ui->tabWidget->setCurrentWidget(ui->tabWidget->widget(2));
 }
 
 void MainWindow::on_pushButtonAuthorEditSong_clicked() // Кнопка перехода из внутреннего списка
 {
     if (ui->listWidgetAuthorSongList->currentIndex().row() != -1)
-        on_listWidgetAuthorSongList_doubleClicked(ui->listWidgetAuthorSongList->currentIndex());
+        SongGoToEdit(ui->listWidgetAuthorSongList->currentIndex().row());
 }
 
 //Вкладка Диски
-void MainWindow::on_listWidgetDiskGoTo_doubleClicked(const QModelIndex &index) // Переход на позицию
+
+void MainWindow::DiskGoToEdit(int index)
 {
     ui->listWidgetDiskSongList->clear();
 
-    dt = DiskList.Move(index.row());
-    std::cout << "Disk: " << "Moving to " << index.row() << std::endl;
-    ui->statusBar->showMessage("Disk: Moving to " + QString::number(index.row()));
+    dt = DiskList.Move(index);
+    std::cout << "Disk: " << "Moving to " << index << std::endl;
+    ui->statusBar->showMessage("Disk: Moving to " + QString::number(index));
 
     DiskId = dt->data.GetId();
     DiskName = dt->data.GetName();
@@ -443,10 +454,15 @@ void MainWindow::on_listWidgetDiskGoTo_doubleClicked(const QModelIndex &index) /
     }
 }
 
+void MainWindow::on_listWidgetDiskGoTo_doubleClicked(const QModelIndex &index) // Переход на позицию
+{
+    DiskGoToEdit(index.row());
+}
+
 void MainWindow::on_pushButtonDiskGoTo_clicked() // Кнопка перейти на
 {
     if (ui->listWidgetDiskGoTo->currentIndex().row() != -1)
-        on_listWidgetDiskGoTo_doubleClicked(ui->listWidgetDiskGoTo->currentIndex());
+        DiskGoToEdit(ui->listWidgetDiskGoTo->currentIndex().row());
 }
 
 void MainWindow::on_lineEditDiskSearch_textChanged(const QString &arg1) // Быстрый поиск
@@ -463,26 +479,26 @@ void MainWindow::on_lineEditDiskSearch_textChanged(const QString &arg1) // Бы�
 
 void MainWindow::on_listWidgetDiskSongList_doubleClicked(const QModelIndex &index) // Переход из внутреннего листа
 {
-    on_listWidgetSongGoTo_doubleClicked(index);
+    SongGoToEdit(index.row());
     ui->tabWidget->setCurrentWidget(ui->tabWidget->widget(2));
 }
 
 void MainWindow::on_pushButtonDiskEditSong_clicked() // Кнопка перехода из внутреннего списка
 {
     if (ui->listWidgetDiskSongList->currentIndex().row() != -1)
-        on_listWidgetDiskSongList_doubleClicked(ui->listWidgetDiskSongList->currentIndex());
+         SongGoToEdit(ui->listWidgetDiskSongList->currentIndex().row());
 }
 
 
 //Вкладка Песни
-void MainWindow::on_listWidgetSongGoTo_doubleClicked(const QModelIndex &index) // Переход на позицию
+void MainWindow::SongGoToEdit(int index)
 {
     ui->listWidgetSongAuthorList->clear();
     ui->listWidgetSongDiskList->clear();
 
-    st = SongList.Move(index.row());
-    std::cout << "Song: " << "Moving to " << index.row() << std::endl;
-    ui->statusBar->showMessage("Song: Moving to " + QString::number(index.row()));
+    st = SongList.Move(index);
+    std::cout << "Song: " << "Moving to " << index << std::endl;
+    ui->statusBar->showMessage("Song: Moving to " + QString::number(index));
 
     SongId = st->data.GetId();
     SongName = st->data.GetName();
@@ -542,10 +558,15 @@ void MainWindow::on_listWidgetSongGoTo_doubleClicked(const QModelIndex &index) /
     }
 }
 
+void MainWindow::on_listWidgetSongGoTo_doubleClicked(const QModelIndex &index) // Переход на позицию
+{
+    SongGoToEdit(index.row());
+}
+
 void MainWindow::on_pushButtonSongGoTo_clicked() // Кнопка перейти на
 {
     if (ui->listWidgetSongGoTo->currentIndex().row() != -1)
-        on_listWidgetSongGoTo_doubleClicked(ui->listWidgetSongGoTo->currentIndex());
+        SongGoToEdit(ui->listWidgetSongGoTo->currentIndex().row());
 }
 
 void MainWindow::on_lineEditSongSearch_textChanged(const QString &arg1) // Быстрый поиск
@@ -562,24 +583,26 @@ void MainWindow::on_lineEditSongSearch_textChanged(const QString &arg1) // Бы�
 
 void MainWindow::on_listWidgetSongAuthorList_doubleClicked(const QModelIndex &index) // Переход из внутреннего списка авторов
 {
-    on_listWidgetAuthorGoTo_doubleClicked(index);
+    AuthorGoToEdit(index.row());
     ui->tabWidget->setCurrentWidget(ui->tabWidget->widget(0));
 }
 
 void MainWindow::on_pushButtonSongEditAuthor_clicked() // Кнопка перехода из внутреннего списка авторов
 {
     if (ui->listWidgetSongAuthorList->currentIndex().row() != -1)
-        on_listWidgetSongAuthorList_doubleClicked(ui->listWidgetSongAuthorList->currentIndex());
+        AuthorGoToEdit(ui->listWidgetSongAuthorList->currentIndex().row());
 }
 
 void MainWindow::on_listWidgetSongDiskList_doubleClicked(const QModelIndex &index) // Переход из внутреннего списка дисков
 {
-    on_listWidgetDiskGoTo_doubleClicked(index);
+    DiskGoToEdit(index.row());
     ui->tabWidget->setCurrentWidget(ui->tabWidget->widget(1));
 }
 
 void MainWindow::on_pushButtonSongEditDisk_clicked() // Кнопка перехода из внутреннего списка дисков
 {
     if (ui->listWidgetSongDiskList->currentIndex().row() != -1)
-        on_listWidgetSongDiskList_doubleClicked(ui->listWidgetSongDiskList->currentIndex());
+        DiskGoToEdit(ui->listWidgetSongDiskList->currentIndex().row());
 }
+
+

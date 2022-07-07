@@ -34,9 +34,15 @@ private slots:
 
     void on_actionSave_triggered();
 
+    void AuthorGoToEdit (int index);
+
     void on_listWidgetAuthorGoTo_doubleClicked(const QModelIndex &index);
 
+    void DiskGoToEdit (int index);
+
     void on_listWidgetDiskGoTo_doubleClicked(const QModelIndex &index);
+
+    void SongGoToEdit (int index);
 
     void on_listWidgetSongGoTo_doubleClicked(const QModelIndex &index);
 

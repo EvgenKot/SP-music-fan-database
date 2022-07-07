@@ -23,7 +23,6 @@ std::string SearchSongName(List<Song> SongList, int SongId)
     return "NOREF";
 }
 
-
 std::string SearchAuthorName(List<Author> AuthorList, int AuthorId)
 {
     Element<Author> *t = AuthorList.GetFirst();
@@ -48,6 +47,7 @@ std::string SearchDiskName(List<Disk> DiskList, int DiskId)
     return "NOREF";
 }
 
+
 nlohmann::json jsonFromFile(std::string FileNameInput)
 {
     std::ifstream ifs{FileNameInput}; //Открытие файла
@@ -61,7 +61,6 @@ nlohmann::json jsonFromFile(std::string FileNameInput)
     ifs.close(); //Закрытие файла
     return file_json;
 }
-
 
 void toFile(std::string FileNameOutput,List<Author> AuthorList, List<Disk> DiskList, List<Song> SongList)
 {
