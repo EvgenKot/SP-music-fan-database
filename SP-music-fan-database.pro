@@ -19,7 +19,12 @@ SOURCES += main.cpp\
 
 HEADERS  += mainwindow.h \
     about.h \
-    report.h
+    report.h \
+    list.h \
+    author.h \
+    disk.h \
+    song.h \
+    process.h
 
 FORMS    += mainwindow.ui \
     about.ui \

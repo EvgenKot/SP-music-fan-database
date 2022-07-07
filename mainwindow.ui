@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>450</width>
-    <height>500</height>
+    <width>520</width>
+    <height>560</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -40,8 +40,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>450</width>
-         <height>458</height>
+         <width>520</width>
+         <height>518</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout_2">
@@ -57,24 +57,20 @@
            <layout class="QGridLayout" name="gridLayout_4">
             <item row="0" column="0">
              <layout class="QGridLayout" name="gridLayout_3">
+              <item row="2" column="0">
+               <widget class="QLabel" name="labelAuthorSongList">
+                <property name="text">
+                 <string>Song List:</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
               <item row="3" column="0">
                <widget class="QPushButton" name="pushButtonAuthorEditSong">
                 <property name="text">
                  <string>Edit Song</string>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="0">
-               <widget class="QPushButton" name="pushButtonAuthorHome">
-                <property name="text">
-                 <string>Home</string>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="3" colspan="2">
-               <widget class="QPushButton" name="pushButtonAuthorRight">
-                <property name="text">
-                 <string>Right</string>
                 </property>
                </widget>
               </item>
@@ -88,7 +84,7 @@
                 </property>
                </widget>
               </item>
-              <item row="2" column="1" rowspan="2" colspan="6">
+              <item row="2" column="1" rowspan="2" colspan="4">
                <widget class="QListWidget" name="listWidgetAuthorSongList"/>
               </item>
               <item row="0" column="0">
@@ -101,89 +97,50 @@
                 </property>
                </widget>
               </item>
-              <item row="4" column="1" colspan="2">
-               <widget class="QPushButton" name="pushButtonAuthorLeft">
-                <property name="text">
-                 <string>Left</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1" colspan="4">
-               <widget class="QLineEdit" name="lineEditAuthorId">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1" colspan="6">
+              <item row="1" column="1" colspan="4">
                <widget class="QLineEdit" name="lineEditAuthorName"/>
               </item>
-              <item row="4" column="5" colspan="2">
-               <widget class="QPushButton" name="pushButtonAuthorEnd">
-                <property name="text">
-                 <string>End</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="labelAuthorSongList">
-                <property name="text">
-                 <string>Song List:</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="6">
+              <item row="0" column="4">
                <widget class="QPushButton" name="pushButtonAuthorSave">
                 <property name="text">
                  <string>Save</string>
                 </property>
                </widget>
               </item>
-              <item row="5" column="0">
-               <widget class="QPushButton" name="pushButtonAuthorGoByName">
-                <property name="text">
-                 <string>Go by name</string>
-                </property>
-               </widget>
-              </item>
-              <item row="6" column="0">
-               <widget class="QPushButton" name="pushButtonAuthorGoToPage">
-                <property name="text">
-                 <string>Go to page</string>
-                </property>
-               </widget>
-              </item>
-              <item row="6" column="3">
-               <widget class="QLabel" name="labelAuthorTotalEntries">
-                <property name="text">
-                 <string>Entries</string>
-                </property>
-               </widget>
-              </item>
-              <item row="6" column="1" colspan="2">
-               <widget class="QSpinBox" name="spinBoxAuthorPosition"/>
-              </item>
-              <item row="6" column="4" colspan="2">
+              <item row="4" column="2" colspan="2">
                <widget class="QPushButton" name="pushButtonAuthorDelete">
                 <property name="text">
                  <string>Delete</string>
                 </property>
                </widget>
               </item>
-              <item row="6" column="6">
+              <item row="4" column="4">
                <widget class="QPushButton" name="pushButtonAuthorNew">
                 <property name="text">
                  <string>New</string>
                 </property>
                </widget>
               </item>
-              <item row="5" column="1" colspan="6">
-               <widget class="QComboBox" name="comboBoxAuthorGoByName">
-                <property name="editable">
-                 <bool>true</bool>
+              <item row="1" column="5" rowspan="3">
+               <widget class="QListWidget" name="listWidgetAuthorGoTo"/>
+              </item>
+              <item row="0" column="5">
+               <widget class="QLineEdit" name="lineEditAuthorSearch"/>
+              </item>
+              <item row="4" column="5">
+               <widget class="QPushButton" name="pushButtonAuthorGoTo">
+                <property name="text">
+                 <string>Go to</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1" colspan="3">
+               <widget class="QLineEdit" name="lineEditAuthorId">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="text">
+                 <string/>
                 </property>
                </widget>
               </item>
@@ -208,13 +165,6 @@
                 </property>
                </widget>
               </item>
-              <item row="0" column="1" colspan="4">
-               <widget class="QLineEdit" name="lineEditDiskId">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-               </widget>
-              </item>
               <item row="1" column="0">
                <widget class="QLabel" name="labelDiskName">
                 <property name="text">
@@ -235,7 +185,7 @@
                 </property>
                </widget>
               </item>
-              <item row="2" column="1" rowspan="2" colspan="6">
+              <item row="2" column="1" rowspan="2" colspan="4">
                <widget class="QListWidget" name="listWidgetDiskSongList"/>
               </item>
               <item row="3" column="0">
@@ -245,88 +195,49 @@
                 </property>
                </widget>
               </item>
-              <item row="4" column="0">
-               <widget class="QPushButton" name="pushButtonDiskHome">
-                <property name="text">
-                 <string>Home</string>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="1" colspan="2">
-               <widget class="QPushButton" name="pushButtonDiskLeft">
-                <property name="text">
-                 <string>Left</string>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="3" colspan="2">
-               <widget class="QPushButton" name="pushButtonDiskRight">
-                <property name="text">
-                 <string>Right</string>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="5" colspan="2">
-               <widget class="QPushButton" name="pushButtonDiskEnd">
-                <property name="text">
-                 <string>End</string>
-                </property>
-               </widget>
-              </item>
-              <item row="6" column="6">
+              <item row="4" column="4">
                <widget class="QPushButton" name="pushButtonDiskNew">
                 <property name="text">
                  <string>New</string>
                 </property>
                </widget>
               </item>
-              <item row="1" column="1" colspan="6">
+              <item row="1" column="1" colspan="4">
                <widget class="QLineEdit" name="lineEditDiskName"/>
               </item>
-              <item row="0" column="6">
+              <item row="0" column="4">
                <widget class="QPushButton" name="pushButtonDiskSave">
                 <property name="text">
                  <string>Save</string>
                 </property>
                </widget>
               </item>
-              <item row="6" column="0">
-               <widget class="QPushButton" name="pushButtonDiskGoToPage">
-                <property name="text">
-                 <string>Go to page</string>
-                </property>
-               </widget>
-              </item>
-              <item row="6" column="3">
-               <widget class="QLabel" name="labelDiskTotalEntries">
-                <property name="text">
-                 <string>Entries</string>
-                </property>
-               </widget>
-              </item>
-              <item row="6" column="1" colspan="2">
-               <widget class="QSpinBox" name="spinBoxDiskPosition"/>
-              </item>
-              <item row="6" column="4" colspan="2">
+              <item row="4" column="2" colspan="2">
                <widget class="QPushButton" name="pushButtonDiskDelete">
                 <property name="text">
                  <string>Delete</string>
                 </property>
                </widget>
               </item>
-              <item row="5" column="0">
-               <widget class="QPushButton" name="pushButtonDiskGoByName">
-                <property name="text">
-                 <string>Go by name</string>
+              <item row="0" column="1" colspan="3">
+               <widget class="QLineEdit" name="lineEditDiskId">
+                <property name="enabled">
+                 <bool>false</bool>
                 </property>
                </widget>
               </item>
-              <item row="5" column="1" colspan="6">
-               <widget class="QComboBox" name="comboBoxDiskGoByName">
-                <property name="editable">
-                 <bool>true</bool>
+              <item row="0" column="5">
+               <widget class="QLineEdit" name="lineEditDiskSearch"/>
+              </item>
+              <item row="4" column="5">
+               <widget class="QPushButton" name="pushButtonDiskGoTo">
+                <property name="text">
+                 <string>Go to</string>
                 </property>
                </widget>
+              </item>
+              <item row="1" column="5" rowspan="3">
+               <widget class="QListWidget" name="listWidgetDiskGoTo"/>
               </item>
              </layout>
             </item>
@@ -339,7 +250,17 @@
            <layout class="QGridLayout" name="gridLayout_9">
             <item row="0" column="0">
              <layout class="QGridLayout" name="gridLayout_8">
-              <item row="12" column="6">
+              <item row="1" column="1" colspan="4">
+               <widget class="QLineEdit" name="lineEditSongName"/>
+              </item>
+              <item row="0" column="1" colspan="3">
+               <widget class="QLineEdit" name="lineEditSongId">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="10" column="4">
                <widget class="QPushButton" name="pushButtonSongNew">
                 <property name="text">
                  <string>New</string>
@@ -356,7 +277,7 @@
                 </property>
                </widget>
               </item>
-              <item row="3" column="1" rowspan="3" colspan="6">
+              <item row="3" column="1" rowspan="3" colspan="4">
                <widget class="QListWidget" name="listWidgetSongAuthorList"/>
               </item>
               <item row="0" column="0">
@@ -369,16 +290,6 @@
                 </property>
                </widget>
               </item>
-              <item row="1" column="1" colspan="6">
-               <widget class="QLineEdit" name="lineEditSongName"/>
-              </item>
-              <item row="10" column="1" colspan="2">
-               <widget class="QPushButton" name="pushButtonSongLeft">
-                <property name="text">
-                 <string>Left</string>
-                </property>
-               </widget>
-              </item>
               <item row="4" column="0">
                <widget class="QPushButton" name="pushButtonSongDeleteAuthor">
                 <property name="text">
@@ -386,31 +297,10 @@
                 </property>
                </widget>
               </item>
-              <item row="10" column="3" colspan="2">
-               <widget class="QPushButton" name="pushButtonSongRight">
-                <property name="text">
-                 <string>Right</string>
-                </property>
-               </widget>
-              </item>
               <item row="9" column="0">
                <widget class="QPushButton" name="pushButtonSongEditDisk">
                 <property name="text">
                  <string>Edit Disk</string>
-                </property>
-               </widget>
-              </item>
-              <item row="10" column="0">
-               <widget class="QPushButton" name="pushButtonSongHome">
-                <property name="text">
-                 <string>Home</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1" colspan="4">
-               <widget class="QLineEdit" name="lineEditSongId">
-                <property name="enabled">
-                 <bool>false</bool>
                 </property>
                </widget>
               </item>
@@ -441,44 +331,13 @@
                 </property>
                </widget>
               </item>
-              <item row="6" column="1" colspan="5">
-               <widget class="QComboBox" name="comboBoxSongAddDisk">
-                <property name="editable">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="10" column="5" colspan="2">
-               <widget class="QPushButton" name="pushButtonSongEnd">
-                <property name="text">
-                 <string>End</string>
-                </property>
-               </widget>
-              </item>
-              <item row="7" column="1" rowspan="3" colspan="6">
+              <item row="7" column="1" rowspan="3" colspan="4">
                <widget class="QListWidget" name="listWidgetSongDiskList"/>
               </item>
-              <item row="0" column="6">
+              <item row="0" column="4">
                <widget class="QPushButton" name="pushButtonSongSave">
                 <property name="text">
                  <string>Save</string>
-                </property>
-               </widget>
-              </item>
-              <item row="6" column="0">
-               <widget class="QLabel" name="labelSongAddDisk">
-                <property name="text">
-                 <string>Add Disk:</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="6" column="6">
-               <widget class="QPushButton" name="pushButtonSongAddDisk">
-                <property name="text">
-                 <string>Add</string>
                 </property>
                </widget>
               </item>
@@ -489,63 +348,49 @@
                 </property>
                </widget>
               </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="labelSongAddAuthor">
-                <property name="text">
-                 <string>Add Author:</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="1" colspan="5">
-               <widget class="QComboBox" name="comboBoxSongAddAuthor">
-                <property name="editable">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="6">
-               <widget class="QPushButton" name="pushButtonSongAddAuthor">
-                <property name="text">
-                 <string>Add</string>
-                </property>
-               </widget>
-              </item>
-              <item row="12" column="0">
-               <widget class="QPushButton" name="pushButtonSongGoToPage">
-                <property name="text">
-                 <string>Go to page</string>
-                </property>
-               </widget>
-              </item>
-              <item row="12" column="3">
-               <widget class="QLabel" name="labelSongTotalEntries">
-                <property name="text">
-                 <string>Entries</string>
-                </property>
-               </widget>
-              </item>
-              <item row="12" column="1" colspan="2">
-               <widget class="QSpinBox" name="spinBoxSongPosition"/>
-              </item>
-              <item row="12" column="4" colspan="2">
+              <item row="10" column="2" colspan="2">
                <widget class="QPushButton" name="pushButtonSongDelete">
                 <property name="text">
                  <string>Delete</string>
                 </property>
                </widget>
               </item>
-              <item row="11" column="0">
-               <widget class="QPushButton" name="pushButtonSingGoByName">
+              <item row="1" column="5" rowspan="9">
+               <widget class="QListWidget" name="listWidgetSongGoTo"/>
+              </item>
+              <item row="10" column="5">
+               <widget class="QPushButton" name="pushButtonSongGoTo">
                 <property name="text">
-                 <string>Go by name</string>
+                 <string>Go to</string>
                 </property>
                </widget>
               </item>
-              <item row="11" column="1" colspan="6">
-               <widget class="QComboBox" name="comboBoxSongGoByName">
+              <item row="0" column="5">
+               <widget class="QLineEdit" name="lineEditSongSearch"/>
+              </item>
+              <item row="2" column="0">
+               <widget class="QPushButton" name="pushButtonSongAddAuthor">
+                <property name="text">
+                 <string>Add Author</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1" colspan="4">
+               <widget class="QComboBox" name="comboBoxSongAddAuthor">
+                <property name="editable">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="0">
+               <widget class="QPushButton" name="pushButtonSongAddDisk">
+                <property name="text">
+                 <string>Add Disk</string>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="1" colspan="4">
+               <widget class="QComboBox" name="comboBoxSongAddDisk">
                 <property name="editable">
                  <bool>true</bool>
                 </property>
@@ -625,7 +470,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>450</width>
+     <width>520</width>
      <height>20</height>
     </rect>
    </property>
