@@ -20,6 +20,14 @@ public:
 private slots:
     void refresh();
 
+    void refreshAuthor();
+
+    void refreshDisk();
+
+    void refreshSong();
+
+    void AuthorOnEdit(bool option);
+
     void on_actionAbout_triggered();
 
     void on_pushButtonDisplaySearchByAuthor_clicked();
@@ -27,6 +35,8 @@ private slots:
     void on_pushButtonDisplaySearchBySong_clicked();
 
     void on_actionOpen_File_triggered();
+
+    void saving(const QString fileNameOutput); //
 
     void on_actionSave_As_triggered();
 
@@ -74,6 +84,14 @@ private slots:
     void on_listWidgetSongDiskList_doubleClicked(const QModelIndex &index);
 
     void on_pushButtonSongEditDisk_clicked();
+
+    void on_lineEditAuthorName_textChanged(const QString &arg1);
+
+    void on_pushButtonAuthorSave_clicked();
+
+    void on_pushButtonAuthorDiscard_clicked();
+
+    void on_pushButtonAuthorNew_clicked();
 
 private:
     Ui::MainWindow *ui;

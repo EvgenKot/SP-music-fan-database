@@ -50,16 +50,7 @@ std::string SearchDiskName(List<Disk> DiskList, int DiskId)
 
 nlohmann::json jsonFromFile(std::string FileNameInput)
 {
-    std::ifstream ifs{FileNameInput}; //Открытие файла
-    if (!ifs.is_open())
-    {
-        std::cerr << "Unable to open file\n";
-        throw 1;
-    }
-    nlohmann::json file_json = nlohmann::json::parse(ifs); //Перевод в Json
 
-    ifs.close(); //Закрытие файла
-    return file_json;
 }
 
 void toFile(std::string FileNameOutput,List<Author> AuthorList, List<Disk> DiskList, List<Song> SongList)

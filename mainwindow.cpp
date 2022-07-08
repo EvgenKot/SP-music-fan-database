@@ -12,7 +12,8 @@
 #include "process.h"
 
 List<Author> AuthorList;
-Element<Author> *at;
+Element<Author> *at;  // Элемент для вывода всех значений
+Element<Author> *eat; // Изменямый в данный момент элемент
 Author currentAuthor;
 int AuthorId;
 std::string AuthorName;
@@ -20,14 +21,16 @@ std::vector<int> AuthorListIdSong;
 
 
 List<Disk> DiskList;
-Element<Disk> *dt;
+Element<Disk> *dt;  // Элемент для вывода всех значений
+Element<Disk> *edt; // Изменямый в данный момент элемент
 Disk currentDisk;
 int DiskId;
 std::string DiskName;
 std::vector<int> DiskListIdSong;
 
 List<Song> SongList;
-Element<Song> *st;
+Element<Song> *st;  // Элемент для вывода всех значений
+Element<Song> *est; // Изменямый в данный момент элемент
 Song currentSong;
 int SongId;
 std::string SongName;
@@ -41,6 +44,8 @@ QString fileNameDefaultOutput;
 bool AuthorEdited = false;
 bool DiskEdited = false;
 bool SongEdited = false;
+
+bool OnLoad = false;
 
 void MainWindow::refresh()
 {
@@ -83,8 +88,46 @@ void MainWindow::refresh()
     }
 }
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
-                                          ui(new Ui::MainWindow)
+void MainWindow::refreshAuthor()
+{
+    ui->lineEditAuthorId->clear();
+    ui->lineEditAuthorName->clear();
+    ui->listWidgetAuthorSongList->clear();
+}
+
+void MainWindow::refreshDisk()
+{
+    ui->lineEditDiskId->clear();
+    ui->lineEditDiskName->clear();
+    ui->listWidgetDiskSongList->clear();
+}
+
+void MainWindow::refreshSong()
+{
+    ui->lineEditSongId->clear();
+    ui->lineEditSongName->clear();
+    ui->listWidgetSongAuthorList->clear();
+    ui->listWidgetSongDiskList->clear();
+}
+
+void MainWindow::AuthorOnEdit(bool option) // Блокирует все поля, кроме изменяемых у Автора
+{
+    bool Noption = not option;
+    AuthorEdited = option;
+    ui->tabDisk->setEnabled(Noption);
+    ui->tabSong->setEnabled(Noption);
+    ui->tabDisplay->setEnabled(Noption);
+    ui->lineEditAuthorSearch->setEnabled(Noption);
+    ui->listWidgetAuthorGoTo->setEnabled(Noption);
+    ui->listWidgetAuthorSongList->setEnabled(Noption);
+    ui->pushButtonAuthorEditSong->setEnabled(Noption);
+    ui->pushButtonAuthorGoTo->setEnabled(Noption);
+    ui->pushButtonAuthorNew->setEnabled(Noption);
+}
+
+
+
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 }
@@ -122,59 +165,104 @@ void MainWindow::on_actionOpen_File_triggered()
         fileNameInput = QFileDialog::getOpenFileName(this, tr("Open base"), "/home", tr("Image Files (*.json)"));
         if (fileNameInput != "")
         {
-            qDebug() << "Opening" << fileNameInput << "...";
-            ui->statusBar->showMessage("Opening \"" + fileNameInput + "\"...");
+            nlohmann::json file_json;
+            try
+            {
+                qDebug() << "Opening" << fileNameInput << "...";
+                ui->statusBar->showMessage("Opening \"" + fileNameInput + "\"...");
 
-            nlohmann::json file_json = jsonFromFile(fileNameInput.toStdString());
-            std::cout << file_json << std::endl;
-
-            //Если список не пустой, чистим
-            if (AuthorList.GetCount() != 0)
-                AuthorList.Clear();
-            if (DiskList.GetCount() != 0)
-                DiskList.Clear();
-            if (SongList.GetCount() != 0)
-                SongList.Clear();
-
-            std::cout << "Author reading..." << std::endl;
-                for (nlohmann::json::iterator it1 = file_json.at("authors").begin(); it1 != file_json.at("authors").end(); ++it1)
+                std::string FileNameInput = fileNameInput.toStdString();
+                std::ifstream ifs{FileNameInput}; //Открытие файла
+                if (!ifs.is_open())
                 {
-                    AuthorId = std::stoi(it1.key());
-                    AuthorName = file_json.at("authors").at(it1.key())["name"].get<std::string>();
-                    AuthorListIdSong = file_json.at("authors").at(it1.key())["songs"].get<std::vector<int>>();
-                    currentAuthor.ChangeAuthor(AuthorId, AuthorName, AuthorListIdSong);
-                    AuthorList.AddEnd(currentAuthor);
+                    std::cerr << "Unable to open file\n";
+                    throw 1;
                 }
-                std::cout << "Author reading completed." << std::endl;
+                file_json = nlohmann::json::parse(ifs); //Перевод в Json
 
-                std::cout << "Disk reading..." << std::endl;
-                for (nlohmann::json::iterator it1 = file_json.at("disks").begin(); it1 != file_json.at("disks").end(); ++it1)
-                {
-                    DiskId = std::stoi(it1.key());
-                    DiskName = file_json.at("disks").at(it1.key())["name"].get<std::string>();
-                    DiskListIdSong = file_json.at("disks").at(it1.key())["songs"].get<std::vector<int>>();
-                    currentDisk.ChangeDisk(DiskId, DiskName, DiskListIdSong);
-                    DiskList.AddEnd(currentDisk);
-                }
-                std::cout << "Disk reading completed." << std::endl;
+                ifs.close(); //Закрытие файла
+            }
+            catch (const nlohmann::detail::parse_error &e)
+            {
+                qDebug() << e.what();
+                ui->statusBar->showMessage(e.what());
+                QMessageBox::warning(this, "Warning","Error while parsing json");
+                return;
+            }
+            catch(...)
+            {
+                qDebug() << "Error while opening";
+                ui->statusBar->showMessage("Cant open file");
+                QMessageBox::warning(this, "Warning","Cant open file");
+                return;
 
-                std::cout << "Song reading..." << std::endl;
-                for (nlohmann::json::iterator it1 = file_json.at("songs").begin(); it1 != file_json.at("songs").end(); ++it1)
-                {
-                    SongId = std::stoi(it1.key());
-                    SongName = file_json.at("songs").at(it1.key())["name"].get<std::string>();
-                    ListIdAuthor = file_json.at("songs").at(it1.key())["authors"].get<std::vector<int>>();
-                    ListIdDisk = file_json.at("songs").at(it1.key())["disks"].get<std::vector<int>>();
-                    currentSong.ChangeSong(SongId, SongName, ListIdAuthor, ListIdDisk);
-                    SongList.AddEnd(currentSong);
-                }
-                std::cout << "Song reading completed." << std::endl;
+            }
 
+            try
+            {
+                std::cout << file_json << std::endl;
 
+                //Если список не пустой, чистим
+                if (AuthorList.GetCount() != 0)
+                    AuthorList.Clear();
+                if (DiskList.GetCount() != 0)
+                    DiskList.Clear();
+                if (SongList.GetCount() != 0)
+                    SongList.Clear();
+
+                std::cout << "Author reading..." << std::endl;
+                    for (nlohmann::json::iterator it1 = file_json.at("authors").begin(); it1 != file_json.at("authors").end(); ++it1)
+                    {
+                        AuthorId = std::stoi(it1.key());
+                        AuthorName = file_json.at("authors").at(it1.key())["name"].get<std::string>();
+                        AuthorListIdSong = file_json.at("authors").at(it1.key())["songs"].get<std::vector<int>>();
+                        currentAuthor.ChangeAuthor(AuthorId, AuthorName, AuthorListIdSong);
+                        AuthorList.AddEnd(currentAuthor);
+                    }
+                    std::cout << "Author reading completed." << std::endl;
+
+                    std::cout << "Disk reading..." << std::endl;
+                    for (nlohmann::json::iterator it1 = file_json.at("disks").begin(); it1 != file_json.at("disks").end(); ++it1)
+                    {
+                        DiskId = std::stoi(it1.key());
+                        DiskName = file_json.at("disks").at(it1.key())["name"].get<std::string>();
+                        DiskListIdSong = file_json.at("disks").at(it1.key())["songs"].get<std::vector<int>>();
+                        currentDisk.ChangeDisk(DiskId, DiskName, DiskListIdSong);
+                        DiskList.AddEnd(currentDisk);
+                    }
+                    std::cout << "Disk reading completed." << std::endl;
+
+                    std::cout << "Song reading..." << std::endl;
+                    for (nlohmann::json::iterator it1 = file_json.at("songs").begin(); it1 != file_json.at("songs").end(); ++it1)
+                    {
+                        SongId = std::stoi(it1.key());
+                        SongName = file_json.at("songs").at(it1.key())["name"].get<std::string>();
+                        ListIdAuthor = file_json.at("songs").at(it1.key())["authors"].get<std::vector<int>>();
+                        ListIdDisk = file_json.at("songs").at(it1.key())["disks"].get<std::vector<int>>();
+                        currentSong.ChangeSong(SongId, SongName, ListIdAuthor, ListIdDisk);
+                        SongList.AddEnd(currentSong);
+                    }
+                    std::cout << "Song reading completed." << std::endl;
+
+                qDebug() << "Opening completed";
+                ui->statusBar->showMessage("Opening completed");
+                MainWindow::refresh();
+            }
+            catch (const nlohmann::detail::type_error &e)
+            {
+                qDebug() << e.what();
+                ui->statusBar->showMessage(e.what());
+                QMessageBox::warning(this, "Warning","Error while converting from json");
+                return;
+            }
+            catch (...)
+            {
+                qDebug() << "The file is damaged";
+                ui->statusBar->showMessage("The file is damaged");
+                QMessageBox::warning(this, "Warning","The file is damaged");
+                return;
+            }
             fileNameDefaultOutput = fileNameInput;
-            qDebug() << "Opening completed";
-            ui->statusBar->showMessage("Opening completed");
-            MainWindow::refresh();
         }
         else
         {
@@ -190,16 +278,12 @@ void MainWindow::on_actionOpen_File_triggered()
     }
 }
 
-void MainWindow::on_actionSave_As_triggered()
+void MainWindow::saving(const QString fileNameOutput)
 {
-    fileNameOutput = "";
 
-    QMessageBox::StandardButton reply;
-    reply = QMessageBox::question(this, "Save as", "Do you really want to save it? If this file exists, it will be overwritten.", QMessageBox::Yes | QMessageBox::No);
-    if (reply == QMessageBox::Yes)
+    if (fileNameOutput != "")
     {
-        fileNameOutput = QFileDialog::getSaveFileName(this, tr("Save base as"), "/home", tr("Image Files (*.json)"));
-        if (fileNameOutput != "")
+        try
         {
             ui->statusBar->showMessage("Saving as \"" + fileNameOutput + "\"...");
             qDebug() << "Saving as " << fileNameOutput;
@@ -244,14 +328,17 @@ void MainWindow::on_actionSave_As_triggered()
 
             ui->statusBar->showMessage("Saved");
             qDebug() << "Saved";
-
             fileNameDefaultOutput = fileNameOutput;
         }
-        else
+
+        catch(...)
         {
-            qDebug() << "Saving aborted";
-            ui->statusBar->showMessage("Saving aborted");
+            qDebug() << "Error while saving";
+            ui->statusBar->showMessage("Error while saving");
+            QMessageBox::warning(this, "Warning","Error while saving");
+            return;
         }
+
 
     }
     else
@@ -259,55 +346,21 @@ void MainWindow::on_actionSave_As_triggered()
         qDebug() << "Saving aborted";
         ui->statusBar->showMessage("Saving aborted");
     }
+
+}
+
+void MainWindow::on_actionSave_As_triggered()
+{
+    fileNameOutput = "";
+    fileNameOutput = QFileDialog::getSaveFileName(this, tr("Save base as"), "/home", tr("Image Files (*.json)"));
+    saving(fileNameOutput);
 }
 
 void MainWindow::on_actionSave_triggered()
 {
     if (fileNameDefaultOutput != "")
     {
-        ui->statusBar->showMessage("Saving as \"" + fileNameDefaultOutput + "\"...");
-        qDebug() << "Saving as " << fileNameDefaultOutput;
-
-        nlohmann::json output_file_json{};
-
-        std::cout << "Author writing..." << std::endl;
-        at = AuthorList.GetFirst();
-        while (at)
-        {
-            output_file_json["authors"][std::to_string(at->data.GetId())]["name"] = at->data.GetName();
-            output_file_json["authors"][std::to_string(at->data.GetId())]["songs"] = at->data.GetSongs();
-            at = at->next;
-        }
-        std::cout << "Author writing completed." << std::endl;
-
-        std::cout << "Disk writing..." << std::endl;
-        dt = DiskList.GetFirst();
-        while (dt)
-        {
-            output_file_json["disks"][std::to_string(dt->data.GetId())]["name"] = dt->data.GetName();
-            output_file_json["disks"][std::to_string(dt->data.GetId())]["songs"] = dt->data.GetSongs();
-            dt = dt->next;
-        }
-        std::cout << "Disk writing completed." << std::endl;
-
-        std::cout << "Song writing..." << std::endl;
-        st = SongList.GetFirst();
-        while (st)
-        {
-            output_file_json["songs"][std::to_string(st->data.GetId())]["name"] = st->data.GetName();
-            output_file_json["songs"][std::to_string(st->data.GetId())]["authors"] = st->data.GetAuthors();
-            output_file_json["songs"][std::to_string(st->data.GetId())]["disks"] = st->data.GetDisks();
-            st = st->next;
-        }
-        std::cout << "Song writing completed." << std::endl;
-
-        //Вывод в файл
-        std::ofstream outputstream(fileNameDefaultOutput.toStdString());
-        outputstream << output_file_json << std::endl;
-
-
-        ui->statusBar->showMessage("Saved");
-        qDebug() << "Saved";
+        saving(fileNameDefaultOutput);
     }
     else
     {
@@ -337,9 +390,11 @@ void MainWindow::on_actionExit_triggered()
 
 void MainWindow::AuthorGoToEdit (int index)
 {
+    OnLoad = true;
     ui->listWidgetAuthorSongList->clear();
 
     at = AuthorList.Move(index);
+    eat = at;
     std::cout << "Author: " <<"Moving to "<< index << std::endl;
     ui->statusBar->showMessage("Author: Moving to " + QString::number(index));
 
@@ -374,6 +429,7 @@ void MainWindow::AuthorGoToEdit (int index)
             st = st->next;
         }
     }
+    OnLoad = false;
 }
 
 void MainWindow::on_listWidgetAuthorGoTo_doubleClicked(const QModelIndex &index) // Переход на позицию
@@ -418,6 +474,7 @@ void MainWindow::DiskGoToEdit(int index)
     ui->listWidgetDiskSongList->clear();
 
     dt = DiskList.Move(index);
+    edt = dt;
     std::cout << "Disk: " << "Moving to " << index << std::endl;
     ui->statusBar->showMessage("Disk: Moving to " + QString::number(index));
 
@@ -497,6 +554,7 @@ void MainWindow::SongGoToEdit(int index)
     ui->listWidgetSongDiskList->clear();
 
     st = SongList.Move(index);
+    est = st;
     std::cout << "Song: " << "Moving to " << index << std::endl;
     ui->statusBar->showMessage("Song: Moving to " + QString::number(index));
 
@@ -606,3 +664,47 @@ void MainWindow::on_pushButtonSongEditDisk_clicked() // Кнопка перех�
 }
 
 
+
+
+void MainWindow::on_lineEditAuthorName_textChanged(const QString &arg1)
+{
+    if (not OnLoad)
+        AuthorOnEdit(true);
+}
+
+void MainWindow::on_pushButtonAuthorSave_clicked()
+{
+    if (AuthorEdited = true)
+    {
+        std::string newAuthorName = ui->lineEditAuthorName->text().toStdString();
+        if (newAuthorName == "")
+            QMessageBox::warning(this, "Warning","Fill the field Author Name");
+        else
+        {
+            eat->data.SetName(newAuthorName);
+            refreshDisk();
+            refreshSong();
+            refresh();
+            AuthorOnEdit(false);
+        }
+    }
+}
+
+void MainWindow::on_pushButtonAuthorDiscard_clicked()
+{
+    refreshAuthor();
+    AuthorOnEdit(false);
+}
+
+void MainWindow::on_pushButtonAuthorNew_clicked()
+{
+    if (AuthorList.GetCount() == 0)
+        AuthorId = 1;
+    else
+        AuthorId = AuthorList.GetLast()->data.GetId() + 1;
+    AuthorName = "Author" + std::to_string(AuthorId);
+    AuthorListIdSong = {};
+    currentAuthor.ChangeAuthor(AuthorId, AuthorName, AuthorListIdSong);
+    AuthorList.AddEnd(currentAuthor);
+    refresh();
+}
