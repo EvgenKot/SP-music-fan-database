@@ -46,7 +46,7 @@ private slots:
 
     void on_actionOpen_File_triggered();
 
-    void saving(const QString fileNameOutput); //
+    void saving(const QString fileNameOutput);
 
     void on_actionSave_As_triggered();
 
@@ -85,7 +85,6 @@ private slots:
     void on_listWidgetDiskSongList_doubleClicked(const QModelIndex &index);
 
     void on_pushButtonDiskEditSong_clicked();
-
 
     void on_listWidgetSongAuthorList_doubleClicked(const QModelIndex &index);
 
@@ -139,6 +138,11 @@ private:
     Ui::MainWindow *ui;
     About *about;
     Report *report;
+
+signals:
+    void signalDisplaySearchSetHeader(QString item);
+    void signalDisplaySearchAddToList(QString item);
+
 };
 
 #endif // MAINWINDOW_H

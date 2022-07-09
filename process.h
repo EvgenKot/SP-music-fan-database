@@ -47,49 +47,42 @@ std::string SearchName(List<Disk> DiskList, int DiskId)
     return "NOREF";
 }
 
-nlohmann::json jsonFromFile(std::string FileNameInput)
-{
 
+
+Element<Author> *SearchElemetById(List<Author> AuthorList, int AuthorId)
+{
+    Element<Author> *t = AuthorList.GetFirst();
+    while (t)
+    {
+        if (AuthorId == t->data.GetId())
+            return t;
+        t = t->next;
+    }
+    return NULL;
 }
 
-void toFile(std::string FileNameOutput,List<Author> AuthorList, List<Disk> DiskList, List<Song> SongList)
+Element<Disk> *SearchElemetById(List<Disk> DiskList, int DiskId)
 {
-    nlohmann::json output_file_json{};
-    
-    std::cout << "Author writing..." << std::endl;
-    Element<Author> *at = AuthorList.GetFirst();
-    while (at)
+    Element<Disk> *t = DiskList.GetFirst();
+    while (t)
     {
-        output_file_json["authors"][std::to_string(at->data.GetId())]["name"] = at->data.GetName();
-        output_file_json["authors"][std::to_string(at->data.GetId())]["songs"] = at->data.GetSongs();
-        at = at->next;
+        if (DiskId == t->data.GetId())
+            return t;
+        t = t->next;
     }
-    std::cout << "Author writing completed." << std::endl;
+    return NULL;
+}
 
-    std::cout << "Disk writing..." << std::endl;
-    Element<Disk> *dt = DiskList.GetFirst();
-    while (dt)
+Element<Song> *SearchElemetById(List<Song> SongList, int SongId)
+{
+    Element<Song> *t = SongList.GetFirst();
+    while (t)
     {
-        output_file_json["disks"][std::to_string(dt->data.GetId())]["name"] = dt->data.GetName();
-        output_file_json["disks"][std::to_string(dt->data.GetId())]["songs"] = dt->data.GetSongs();
-        dt = dt->next;
+        if (SongId == t->data.GetId())
+            return t;
+        t = t->next;
     }
-    std::cout << "Disk writing completed." << std::endl;
-
-    std::cout << "Song writing..." << std::endl;
-    Element<Song> *st = SongList.GetFirst();
-    while (st)
-    {
-        output_file_json["songs"][std::to_string(st->data.GetId())]["name"] = st->data.GetName();
-        output_file_json["songs"][std::to_string(st->data.GetId())]["authors"] = st->data.GetAuthors();
-        output_file_json["songs"][std::to_string(st->data.GetId())]["disks"] = st->data.GetDisks();
-        st = st->next;
-    }
-    std::cout << "Song writing completed." << std::endl;
-
-    //Вывод в файл
-    std::ofstream outputstream(FileNameOutput);    
-    outputstream << output_file_json << std::endl;
+    return NULL;
 }
 
 #endif // PROCESS_H

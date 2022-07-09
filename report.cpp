@@ -12,3 +12,13 @@ Report::~Report()
 {
     delete ui;
 }
+
+void Report::slotDisplaySearchSetHeader(QString item)
+{
+    ui->labelReportHeader->setText(item);
+}
+
+void Report::slotDisplaySearchAddToList(QString item)
+{
+    ui->listWidgetReport->addItem(item);
+}

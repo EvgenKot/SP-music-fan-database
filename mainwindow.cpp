@@ -11,6 +11,7 @@
 #include "ui_mainwindow.h"
 #include "process.h"
 
+
 List<Author> AuthorList;
 Element<Author> *at;  // Элемент для вывода всех значений
 Element<Author> *eat; // Изменямый в данный момент элемент
@@ -195,7 +196,7 @@ void MainWindow::SongOnEdit(bool option) // Блокирует все поля, 
 
     if (not option)
     {
-        ui->lineEditAuthorName->setEnabled(option);
+        ui->lineEditSongName->setEnabled(option);
         ui->comboBoxSongAddAuthor->setEnabled(option);
         ui->pushButtonSongAddAuthor->setEnabled(option);
         ui->listWidgetSongAuthorList->setEnabled(option);
@@ -242,15 +243,73 @@ void MainWindow::on_actionAbout_triggered() // Вызов справки
 
 void MainWindow::on_pushButtonDisplaySearchByAuthor_clicked() // Поиск песен заданного автора
 {
+    if (ui->comboBoxDisplaySearchByAuthor->currentIndex() != -1)
+    {
+        report = new Report(this);
+        report->setModal(true);
+        report->show();
 
-    report = new Report(this);
-    report->show();
+        at = AuthorList.Move(ui->comboBoxDisplaySearchByAuthor->currentIndex());
+        AuthorId = at->data.GetId();
+        AuthorName = at->data.GetName();
+        AuthorListIdSong = at->data.GetSongs();
+        // Устанавливаем заголовок
+        QString Header = QString::fromUtf8(AuthorName.data(), AuthorName.size()) + " songs:";
+        connect(this, &MainWindow::signalDisplaySearchSetHeader, report, &Report::slotDisplaySearchSetHeader);
+        emit signalDisplaySearchSetHeader(Header);
+        // Добавляем песни
+        QString item;
+        connect(this, &MainWindow::signalDisplaySearchAddToList, report, &Report::slotDisplaySearchAddToList);
+        for (int i = 0; i < AuthorListIdSong.size(); i++)
+        {
+            st = SearchElemetById(SongList, AuthorListIdSong[i]);
+            SongName = " - " + st->data.GetName();
+            ListIdAuthor = st->data.GetAuthors();
+            std::string itemAuhors = SearchElemetById(AuthorList, ListIdAuthor[0])->data.GetName();
+            at = SearchElemetById(AuthorList, ListIdAuthor[i]);
+            for (int j = 1; j < ListIdAuthor.size(); j++)
+            {
+                itemAuhors = itemAuhors + ", " + SearchElemetById(AuthorList, ListIdAuthor[j])->data.GetName();
+            }
+            itemAuhors = itemAuhors + SongName;
+            item = QString::fromUtf8(itemAuhors.data(), itemAuhors.size());
+            emit signalDisplaySearchAddToList(item);
+        }
+        qDebug() << "Display: author songs report created";
+        ui->statusBar->showMessage("Display: author songs report created");
+    }
 }
 
 void MainWindow::on_pushButtonDisplaySearchBySong_clicked() // Поиск дисков, где встречается заданная песня
-{
-    report = new Report(this);
-    report->show();
+{   
+    if (ui->comboBoxDisplaySearchBySong->currentIndex() != -1)
+    {
+        report = new Report(this);
+        report->setModal(true);
+        report->show();
+
+        st = SongList.Move(ui->comboBoxDisplaySearchBySong->currentIndex());
+        SongId = st->data.GetId();
+        SongName = st->data.GetName();
+        ListIdDisk = st->data.GetDisks();
+        // Устанавливаем заголовок
+        QString Header = QString::fromUtf8(SongName.data(), SongName.size()) + " disks:";
+        connect(this, &MainWindow::signalDisplaySearchSetHeader, report, &Report::slotDisplaySearchSetHeader);
+        emit signalDisplaySearchSetHeader(Header);
+        // Добавляем диски
+        QString item;
+        connect(this, &MainWindow::signalDisplaySearchAddToList, report, &Report::slotDisplaySearchAddToList);
+        for (int i = 0; i < ListIdDisk.size(); i++)
+        {
+            dt = SearchElemetById(DiskList, ListIdDisk[i]);
+            DiskName = dt->data.GetName();
+            item = QString::fromUtf8(DiskName.data(), DiskName.size());
+            emit signalDisplaySearchAddToList(item);
+        }
+        qDebug() << "Display: song disks report created";
+        ui->statusBar->showMessage("Display: song disks report created");
+    }
+
 }
 
 void MainWindow::on_actionOpen_File_triggered() // Открытие файла
@@ -843,6 +902,8 @@ void MainWindow::on_pushButtonAuthorSave_clicked() // Сохранение из�
             AuthorEditActivated(true);
             OnLoad = false;
             DataChanged = true;
+            qDebug() << "Author: saved";
+            ui->statusBar->showMessage("Author: saved");
         }
     }
 }
@@ -851,6 +912,8 @@ void MainWindow::on_pushButtonAuthorDiscard_clicked() // Отмена измен
 {
     refreshAuthor();
     AuthorOnEdit(false);
+    qDebug() << "Author: edit discarded";
+    ui->statusBar->showMessage("Author: edit discarded");
 }
 
 void MainWindow::on_pushButtonAuthorNew_clicked() // Создание нового автора
@@ -867,10 +930,14 @@ void MainWindow::on_pushButtonAuthorNew_clicked() // Создание новог
     refreshAuthor();
     refreshDisk();
     refreshSong();
-    AuthorEditActivated(false);
+    //
     DiskEditActivated(false);
     SongEditActivated(false);
     DataChanged = true;
+
+    AuthorGoToEdit(AuthorList.GetCount() - 1);
+    qDebug() << "Author: Author" << AuthorId << " added";
+    ui->statusBar->showMessage("Author: Author" + QString::number(AuthorId) + " added");
 }
 
 void MainWindow::on_pushButtonAuthorDelete_clicked() // Удаление текущего автора
@@ -960,9 +1027,10 @@ void MainWindow::on_pushButtonDiskNew_clicked() // Создание нового
     refreshDisk();
     refreshSong();
     AuthorEditActivated(false);
-    DiskEditActivated(false);
+
     SongEditActivated(false);
     DataChanged = true;
+    DiskGoToEdit(DiskList.GetCount() - 1);
     qDebug() << "Disk: Disk" << DiskId << " added";
     ui->statusBar->showMessage("Disk: Disk" + QString::number(DiskId) + " added");
 }
@@ -1180,8 +1248,9 @@ void MainWindow::on_pushButtonSongNew_clicked() // Создание новой �
     refreshSong();
     AuthorOnEdit(false);
     DiskOnEdit(false);
-    SongOnEdit(false);
+
     DataChanged = true;
+    SongGoToEdit(SongList.GetCount()-1);
     qDebug() << "Song: Song" << SongId << " added";
     ui->statusBar->showMessage("Song: Song" + QString::number(SongId) + " added");
 }

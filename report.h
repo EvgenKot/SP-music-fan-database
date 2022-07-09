@@ -17,6 +17,10 @@ public:
 
 private:
     Ui::Report *ui;
+
+public slots:
+    void slotDisplaySearchSetHeader(QString item);
+    void slotDisplaySearchAddToList(QString item);
 };
 
 #endif // REPORT_H
