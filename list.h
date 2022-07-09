@@ -73,14 +73,20 @@ int List<T>::GetCount()
 template <class T>
 Element<T> *List<T>::GetFirst()
 {
-    return head;
+    if (count != 0)
+        return head;
+    else
+        return NULL;
 }
 
 // Получить последний элемент
 template <class T>
 Element<T> *List<T>::GetLast()
 {
-    return tail;
+    if (count != 0)
+        return tail;
+    else
+        return NULL;
 }
 
 // Переместиться на элемент по индексу

@@ -30,7 +30,7 @@ public:
 
     void Show();                 //Показать список песен диска
     void AddSong(int songid);    //Добавить песню диску
-    void RemoveSongs(int songid); //Удалить песню у диска
+    void RemoveSong(int songid); //Удалить песню у диска
     std::vector <int> GetSongs(); //Получить песни у диска
 };
 
@@ -62,6 +62,21 @@ std::string Disk::GetName()
 std::vector <int> Disk::GetSongs()
 {
     return ListIdSong;
+}
+
+void Disk::AddSong(int songid)
+{
+    for (int i = 0; i < ListIdSong.size(); i++)
+        if (ListIdSong[i] == songid)
+            return;
+    ListIdSong.push_back(songid);
+}
+
+void Disk::RemoveSong(int songid)
+{
+    for (int i = 0; i < ListIdSong.size(); i++)
+        if (ListIdSong[i] == songid)
+            ListIdSong.erase(ListIdSong.begin() + i);
 }
 
 #endif // DISK_H

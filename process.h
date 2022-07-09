@@ -47,7 +47,6 @@ std::string SearchDiskName(List<Disk> DiskList, int DiskId)
     return "NOREF";
 }
 
-
 nlohmann::json jsonFromFile(std::string FileNameInput)
 {
 

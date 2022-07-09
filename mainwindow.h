@@ -28,6 +28,16 @@ private slots:
 
     void AuthorOnEdit(bool option);
 
+    void AuthorEditActivated(bool option);
+
+    void DiskOnEdit(bool option);
+
+    void DiskEditActivated(bool option);
+
+    void SongOnEdit(bool option);
+
+    void SongEditActivated(bool option);
+
     void on_actionAbout_triggered();
 
     void on_pushButtonDisplaySearchByAuthor_clicked();
@@ -92,6 +102,36 @@ private slots:
     void on_pushButtonAuthorDiscard_clicked();
 
     void on_pushButtonAuthorNew_clicked();
+
+    void on_lineEditDiskName_textChanged(const QString &arg1);
+
+    void on_pushButtonDiskSave_clicked();
+
+    void on_pushButtonDiskDiscard_clicked();
+
+    void on_pushButtonDiskNew_clicked();
+
+    void on_pushButtonAuthorDelete_clicked();
+
+    void on_pushButtonDiskDelete_clicked();
+
+    void on_lineEditSongName_textChanged(const QString &arg1);
+
+    void on_pushButtonSongSave_clicked();
+
+    void on_pushButtonSongDiscard_clicked();
+
+    void on_pushButtonSongNew_clicked();
+
+    void on_pushButtonSongDelete_clicked();
+
+    void on_pushButtonSongAddAuthor_clicked();
+
+    void on_pushButtonSongAddDisk_clicked();
+
+    void on_pushButtonSongDeleteAuthor_clicked();
+
+    void on_pushButtonSongDeleteDisk_clicked();
 
 private:
     Ui::MainWindow *ui;

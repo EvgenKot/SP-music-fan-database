@@ -48,7 +48,7 @@
         <item row="0" column="0">
          <widget class="QTabWidget" name="tabWidget">
           <property name="currentIndex">
-           <number>0</number>
+           <number>2</number>
           </property>
           <widget class="QWidget" name="tabAuthor">
            <attribute name="title">
@@ -69,6 +69,9 @@
               </item>
               <item row="3" column="0">
                <widget class="QPushButton" name="pushButtonAuthorEditSong">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="text">
                  <string>Edit Song</string>
                 </property>
@@ -85,7 +88,11 @@
                </widget>
               </item>
               <item row="2" column="1" rowspan="2" colspan="4">
-               <widget class="QListWidget" name="listWidgetAuthorSongList"/>
+               <widget class="QListWidget" name="listWidgetAuthorSongList">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+               </widget>
               </item>
               <item row="0" column="0">
                <widget class="QLabel" name="labelAuthorId">
@@ -98,10 +105,17 @@
                </widget>
               </item>
               <item row="1" column="1" colspan="4">
-               <widget class="QLineEdit" name="lineEditAuthorName"/>
+               <widget class="QLineEdit" name="lineEditAuthorName">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+               </widget>
               </item>
               <item row="0" column="4">
                <widget class="QPushButton" name="pushButtonAuthorSave">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="text">
                  <string>Save</string>
                 </property>
@@ -109,6 +123,9 @@
               </item>
               <item row="4" column="2" colspan="2">
                <widget class="QPushButton" name="pushButtonAuthorDelete">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="text">
                  <string>Delete</string>
                 </property>
@@ -146,6 +163,9 @@
               </item>
               <item row="4" column="0">
                <widget class="QPushButton" name="pushButtonAuthorDiscard">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="text">
                  <string>Discard</string>
                 </property>
@@ -193,10 +213,17 @@
                </widget>
               </item>
               <item row="2" column="1" rowspan="2" colspan="4">
-               <widget class="QListWidget" name="listWidgetDiskSongList"/>
+               <widget class="QListWidget" name="listWidgetDiskSongList">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+               </widget>
               </item>
               <item row="3" column="0">
                <widget class="QPushButton" name="pushButtonDiskEditSong">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="text">
                  <string>Edit Song</string>
                 </property>
@@ -210,10 +237,17 @@
                </widget>
               </item>
               <item row="1" column="1" colspan="4">
-               <widget class="QLineEdit" name="lineEditDiskName"/>
+               <widget class="QLineEdit" name="lineEditDiskName">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+               </widget>
               </item>
               <item row="0" column="4">
                <widget class="QPushButton" name="pushButtonDiskSave">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="text">
                  <string>Save</string>
                 </property>
@@ -221,6 +255,9 @@
               </item>
               <item row="4" column="2" colspan="2">
                <widget class="QPushButton" name="pushButtonDiskDelete">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="text">
                  <string>Delete</string>
                 </property>
@@ -248,6 +285,9 @@
               </item>
               <item row="4" column="0">
                <widget class="QPushButton" name="pushButtonDiskDiscard">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="text">
                  <string>Discard</string>
                 </property>
@@ -266,6 +306,9 @@
              <layout class="QGridLayout" name="gridLayout_8">
               <item row="0" column="4">
                <widget class="QPushButton" name="pushButtonSongSave">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="text">
                  <string>Save</string>
                 </property>
@@ -307,6 +350,9 @@
               </item>
               <item row="4" column="0">
                <widget class="QPushButton" name="pushButtonSongDeleteAuthor">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="text">
                  <string>Delete</string>
                 </property>
@@ -314,6 +360,9 @@
               </item>
               <item row="9" column="0">
                <widget class="QPushButton" name="pushButtonSongEditDisk">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="text">
                  <string>Edit Disk</string>
                 </property>
@@ -321,6 +370,9 @@
               </item>
               <item row="5" column="0">
                <widget class="QPushButton" name="pushButtonSongEditAuthor">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="text">
                  <string>Edit Author</string>
                 </property>
@@ -348,6 +400,9 @@
               </item>
               <item row="8" column="0">
                <widget class="QPushButton" name="pushButtonSongDeleteDisk">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="text">
                  <string>Delete</string>
                 </property>
@@ -355,6 +410,9 @@
               </item>
               <item row="2" column="0">
                <widget class="QPushButton" name="pushButtonSongAddAuthor">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="text">
                  <string>Add Author</string>
                 </property>
@@ -362,6 +420,9 @@
               </item>
               <item row="6" column="0">
                <widget class="QPushButton" name="pushButtonSongAddDisk">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="text">
                  <string>Add Disk</string>
                 </property>
@@ -382,16 +443,26 @@
               </item>
               <item row="10" column="2" colspan="2">
                <widget class="QPushButton" name="pushButtonSongDelete">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="text">
                  <string>Delete</string>
                 </property>
                </widget>
               </item>
               <item row="7" column="1" rowspan="3" colspan="4">
-               <widget class="QListWidget" name="listWidgetSongDiskList"/>
+               <widget class="QListWidget" name="listWidgetSongDiskList">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+               </widget>
               </item>
               <item row="6" column="1" colspan="4">
                <widget class="QComboBox" name="comboBoxSongAddDisk">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="editable">
                  <bool>true</bool>
                 </property>
@@ -399,19 +470,33 @@
               </item>
               <item row="2" column="1" colspan="4">
                <widget class="QComboBox" name="comboBoxSongAddAuthor">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="editable">
                  <bool>true</bool>
                 </property>
                </widget>
               </item>
               <item row="3" column="1" rowspan="3" colspan="4">
-               <widget class="QListWidget" name="listWidgetSongAuthorList"/>
+               <widget class="QListWidget" name="listWidgetSongAuthorList">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+               </widget>
               </item>
               <item row="1" column="1" colspan="4">
-               <widget class="QLineEdit" name="lineEditSongName"/>
+               <widget class="QLineEdit" name="lineEditSongName">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+               </widget>
               </item>
               <item row="10" column="0">
                <widget class="QPushButton" name="pushButtonSongDiscard">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="text">
                  <string>Discard</string>
                 </property>

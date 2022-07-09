@@ -44,6 +44,7 @@ QString fileNameDefaultOutput;
 bool AuthorEdited = false;
 bool DiskEdited = false;
 bool SongEdited = false;
+bool DataChanged;
 
 bool OnLoad = false;
 
@@ -112,17 +113,112 @@ void MainWindow::refreshSong()
 
 void MainWindow::AuthorOnEdit(bool option) // Блокирует все поля, кроме изменяемых у Автора
 {
-    bool Noption = not option;
     AuthorEdited = option;
-    ui->tabDisk->setEnabled(Noption);
-    ui->tabSong->setEnabled(Noption);
-    ui->tabDisplay->setEnabled(Noption);
-    ui->lineEditAuthorSearch->setEnabled(Noption);
-    ui->listWidgetAuthorGoTo->setEnabled(Noption);
-    ui->listWidgetAuthorSongList->setEnabled(Noption);
-    ui->pushButtonAuthorEditSong->setEnabled(Noption);
-    ui->pushButtonAuthorGoTo->setEnabled(Noption);
-    ui->pushButtonAuthorNew->setEnabled(Noption);
+    ui->tabDisk->setEnabled(not option);
+    ui->tabSong->setEnabled(not option);
+    ui->tabDisplay->setEnabled(not option);
+    ui->lineEditAuthorSearch->setEnabled(not option);
+    ui->listWidgetAuthorGoTo->setEnabled(not option);
+    ui->pushButtonAuthorSave->setEnabled(option);
+    ui->listWidgetAuthorSongList->setEnabled(false);
+    ui->pushButtonAuthorDelete->setEnabled(false);
+    ui->pushButtonAuthorDiscard->setEnabled(option);
+    ui->pushButtonAuthorEditSong->setEnabled(false);
+    ui->pushButtonAuthorGoTo->setEnabled(not option);
+    ui->pushButtonAuthorNew->setEnabled(not option);
+    if (not option)
+        ui->lineEditAuthorName->setEnabled(option);
+
+}
+
+void MainWindow::AuthorEditActivated(bool option) // Открывает поля для изменения
+{
+    ui->lineEditAuthorName->setEnabled(option);
+    ui->listWidgetAuthorSongList->setEnabled(option);
+    ui->pushButtonAuthorDelete->setEnabled(option);
+    ui->pushButtonAuthorEditSong->setEnabled(option);
+}
+
+void MainWindow::DiskOnEdit(bool option) // Блокирует все поля, кроме изменяемых у Диска
+{
+    DiskEdited = option;
+    ui->tabAuthor->setEnabled(not option);
+    ui->tabSong->setEnabled(not option);
+    ui->tabDisplay->setEnabled(not option);
+    ui->lineEditDiskSearch->setEnabled(not option);
+    ui->listWidgetDiskGoTo->setEnabled(not option);
+    ui->pushButtonDiskSave->setEnabled(option);
+    ui->listWidgetDiskSongList->setEnabled(false);
+    ui->pushButtonDiskDelete->setEnabled(false);
+    ui->pushButtonDiskDiscard->setEnabled(option);
+    ui->pushButtonDiskEditSong->setEnabled(false);
+    ui->pushButtonDiskGoTo->setEnabled(not option);
+    ui->pushButtonDiskNew->setEnabled(not option);
+    if (not option)
+        ui->lineEditDiskName->setEnabled(option);
+
+}
+
+void MainWindow::DiskEditActivated(bool option) // Открывает поля для изменения
+{
+    ui->lineEditDiskName->setEnabled(option);
+    ui->listWidgetDiskSongList->setEnabled(option);
+    ui->pushButtonDiskDelete->setEnabled(option);
+    ui->pushButtonDiskEditSong->setEnabled(option);
+}
+
+
+void MainWindow::SongOnEdit(bool option) // Блокирует все поля, кроме изменяемых у песни
+{
+    SongEdited = option;
+    ui->tabAuthor->setEnabled(not option);
+    ui->tabDisk->setEnabled(not option);
+    ui->tabDisplay->setEnabled(not option);
+
+    ui->lineEditSongSearch->setEnabled(not option);
+    ui->listWidgetSongGoTo->setEnabled(not option);
+    ui->pushButtonSongSave->setEnabled(option);
+    ui->listWidgetSongAuthorList->setEnabled(true);
+
+    ui->pushButtonSongDelete->setEnabled(false);
+    ui->pushButtonSongDiscard->setEnabled(option);
+
+    ui->pushButtonSongEditAuthor->setEnabled(false);
+    ui->pushButtonSongEditDisk->setEnabled(false);
+
+    ui->pushButtonSongGoTo->setEnabled(not option);
+    ui->pushButtonSongNew->setEnabled(not option);
+
+    if (not option)
+        {
+            ui->lineEditAuthorName->setEnabled(option);
+            ui->comboBoxSongAddAuthor->setEnabled(option);
+            ui->pushButtonSongAddAuthor->setEnabled(option);
+            ui->listWidgetSongAuthorList->setEnabled(option);
+            ui->pushButtonSongDeleteAuthor->setEnabled(option);
+            ui->pushButtonSongAddDisk->setEnabled(option);
+            ui->comboBoxSongAddDisk->setEnabled(option);
+            ui->listWidgetSongDiskList->setEnabled(option);
+            ui->pushButtonSongDeleteDisk->setEnabled(option);
+        }
+
+}
+
+void MainWindow::SongEditActivated(bool option) // Открывает поля для изменения
+{
+    ui->lineEditSongName->setEnabled(option);
+    ui->comboBoxSongAddAuthor->setEnabled(option);
+    ui->pushButtonSongAddAuthor->setEnabled(option);
+    ui->listWidgetSongAuthorList->setEnabled(option);
+    ui->pushButtonSongDeleteAuthor->setEnabled(option);
+    ui->pushButtonSongEditAuthor->setEnabled(option);
+    ui->listWidgetSongAuthorList->setEnabled(option);
+    ui->pushButtonSongAddDisk->setEnabled(option);
+    ui->comboBoxSongAddDisk->setEnabled(option);
+    ui->pushButtonSongDeleteDisk->setEnabled(option);
+    ui->pushButtonSongEditDisk->setEnabled(option);
+    ui->listWidgetSongDiskList->setEnabled(option);
+    ui->pushButtonSongDelete->setEnabled(option);
 }
 
 
@@ -430,6 +526,7 @@ void MainWindow::AuthorGoToEdit (int index)
         }
     }
     OnLoad = false;
+    AuthorEditActivated(true);
 }
 
 void MainWindow::on_listWidgetAuthorGoTo_doubleClicked(const QModelIndex &index) // Переход на позицию
@@ -464,13 +561,18 @@ void MainWindow::on_listWidgetAuthorSongList_doubleClicked(const QModelIndex &in
 void MainWindow::on_pushButtonAuthorEditSong_clicked() // Кнопка перехода из внутреннего списка
 {
     if (ui->listWidgetAuthorSongList->currentIndex().row() != -1)
+    {
         SongGoToEdit(ui->listWidgetAuthorSongList->currentIndex().row());
+        ui->tabWidget->setCurrentWidget(ui->tabWidget->widget(2));
+    }
+
 }
 
 //Вкладка Диски
 
 void MainWindow::DiskGoToEdit(int index)
 {
+    OnLoad = true;
     ui->listWidgetDiskSongList->clear();
 
     dt = DiskList.Move(index);
@@ -509,6 +611,8 @@ void MainWindow::DiskGoToEdit(int index)
             st = st->next;
         }
     }
+    OnLoad = false;
+    DiskEditActivated(true);
 }
 
 void MainWindow::on_listWidgetDiskGoTo_doubleClicked(const QModelIndex &index) // Переход на позицию
@@ -543,13 +647,19 @@ void MainWindow::on_listWidgetDiskSongList_doubleClicked(const QModelIndex &inde
 void MainWindow::on_pushButtonDiskEditSong_clicked() // Кнопка перехода из внутреннего списка
 {
     if (ui->listWidgetDiskSongList->currentIndex().row() != -1)
-         SongGoToEdit(ui->listWidgetDiskSongList->currentIndex().row());
+    {
+        SongGoToEdit(ui->listWidgetDiskSongList->currentIndex().row());
+        ui->tabWidget->setCurrentWidget(ui->tabWidget->widget(2));
+    }
+
+
 }
 
 
 //Вкладка Песни
-void MainWindow::SongGoToEdit(int index)
+void MainWindow::SongGoToEdit(int index)    // Перейти на песню для изменения
 {
+    OnLoad = true;
     ui->listWidgetSongAuthorList->clear();
     ui->listWidgetSongDiskList->clear();
 
@@ -562,6 +672,8 @@ void MainWindow::SongGoToEdit(int index)
     SongName = st->data.GetName();
     ListIdAuthor = st->data.GetAuthors();
     ListIdDisk = st->data.GetDisks();
+
+    currentSong.ChangeSong(SongId, SongName, ListIdAuthor, ListIdDisk);
 
 
     ui->lineEditSongId->setText(QString::number(SongId));
@@ -614,6 +726,8 @@ void MainWindow::SongGoToEdit(int index)
             dt = dt->next;
         }
     }
+    OnLoad = false;
+    SongEditActivated(true);
 }
 
 void MainWindow::on_listWidgetSongGoTo_doubleClicked(const QModelIndex &index) // Переход на позицию
@@ -641,30 +755,45 @@ void MainWindow::on_lineEditSongSearch_textChanged(const QString &arg1) // Бы�
 
 void MainWindow::on_listWidgetSongAuthorList_doubleClicked(const QModelIndex &index) // Переход из внутреннего списка авторов
 {
-    AuthorGoToEdit(index.row());
-    ui->tabWidget->setCurrentWidget(ui->tabWidget->widget(0));
+    if (not SongEdited)
+    {
+        AuthorGoToEdit(index.row());
+        ui->tabWidget->setCurrentWidget(ui->tabWidget->widget(0));
+    }
 }
 
 void MainWindow::on_pushButtonSongEditAuthor_clicked() // Кнопка перехода из внутреннего списка авторов
 {
     if (ui->listWidgetSongAuthorList->currentIndex().row() != -1)
+    {
         AuthorGoToEdit(ui->listWidgetSongAuthorList->currentIndex().row());
+        ui->tabWidget->setCurrentWidget(ui->tabWidget->widget(0));
+    }
+
+
 }
 
 void MainWindow::on_listWidgetSongDiskList_doubleClicked(const QModelIndex &index) // Переход из внутреннего списка дисков
 {
-    DiskGoToEdit(index.row());
-    ui->tabWidget->setCurrentWidget(ui->tabWidget->widget(1));
+    if (not SongEdited)
+    {
+        DiskGoToEdit(index.row());
+        ui->tabWidget->setCurrentWidget(ui->tabWidget->widget(1));
+    }
 }
 
 void MainWindow::on_pushButtonSongEditDisk_clicked() // Кнопка перехода из внутреннего списка дисков
 {
     if (ui->listWidgetSongDiskList->currentIndex().row() != -1)
+    {
         DiskGoToEdit(ui->listWidgetSongDiskList->currentIndex().row());
+        ui->tabWidget->setCurrentWidget(ui->tabWidget->widget(1));
+    }
+
 }
 
 
-
+// Изменение данных автора
 
 void MainWindow::on_lineEditAuthorName_textChanged(const QString &arg1)
 {
@@ -682,12 +811,16 @@ void MainWindow::on_pushButtonAuthorSave_clicked()
         else
         {
             eat->data.SetName(newAuthorName);
+            OnLoad = true;
             refreshDisk();
             refreshSong();
             refresh();
             AuthorOnEdit(false);
+            AuthorEditActivated(true);
+            OnLoad = false;
         }
     }
+
 }
 
 void MainWindow::on_pushButtonAuthorDiscard_clicked()
@@ -707,4 +840,390 @@ void MainWindow::on_pushButtonAuthorNew_clicked()
     currentAuthor.ChangeAuthor(AuthorId, AuthorName, AuthorListIdSong);
     AuthorList.AddEnd(currentAuthor);
     refresh();
+}
+
+void MainWindow::on_pushButtonAuthorDelete_clicked()
+{
+    OnLoad = true;
+    AuthorId = eat->data.GetId();
+    AuthorListIdSong = eat->data.GetSongs();
+
+    for (int i = 0; i < AuthorListIdSong.size(); i++)
+    {
+        st = SongList.GetFirst();
+        while (st)
+        {
+            if (st->data.GetId() == AuthorListIdSong[i])
+            {
+                st->data.RemoveAuthor(AuthorId);
+                break;
+            }
+
+            st = st->next;
+        }
+
+    }
+
+    AuthorList.Delete(eat);
+
+    refresh();
+    refreshAuthor();
+    refreshDisk();
+    refreshSong();
+    AuthorOnEdit(false);
+    DiskOnEdit(false);
+    SongOnEdit(false);
+    OnLoad = false;
+}
+
+
+// Изменение данных диска
+
+
+void MainWindow::on_lineEditDiskName_textChanged(const QString &arg1)
+{
+    if (not OnLoad)
+        DiskOnEdit(true);
+}
+
+void MainWindow::on_pushButtonDiskSave_clicked()
+{
+    if (DiskEdited = true)
+    {
+        std::string newDiskName = ui->lineEditDiskName->text().toStdString();
+        if (newDiskName == "")
+            QMessageBox::warning(this, "Warning","Fill the field Disk Name");
+        else
+        {
+            edt->data.SetName(newDiskName);
+            OnLoad = true;
+            refreshAuthor();
+            refreshSong();
+            refresh();
+            DiskOnEdit(false);
+            DiskEditActivated(true);
+            OnLoad = false;
+        }
+    }
+}
+
+void MainWindow::on_pushButtonDiskDiscard_clicked()
+{
+    refreshDisk();
+    DiskOnEdit(false);
+}
+
+void MainWindow::on_pushButtonDiskNew_clicked()
+{
+    if (DiskList.GetCount() == 0)
+        DiskId = 1;
+    else
+        DiskId = DiskList.GetLast()->data.GetId() + 1;
+    DiskName = "Disk" + std::to_string(DiskId);
+    DiskListIdSong = {};
+    currentDisk.ChangeDisk(DiskId, DiskName, DiskListIdSong);
+    DiskList.AddEnd(currentDisk);
+    refresh();
+}
+
+void MainWindow::on_pushButtonDiskDelete_clicked()
+{
+    OnLoad = true;
+    DiskId = edt->data.GetId();
+    DiskListIdSong = edt->data.GetSongs();
+
+    for (int i = 0; i < DiskListIdSong.size(); i++)
+    {
+        st = SongList.GetFirst();
+        while (st)
+        {
+            if (st->data.GetId() == DiskListIdSong[i])
+            {
+                st->data.RemoveDisk(AuthorId);
+                break;
+            }
+
+            st = st->next;
+        }
+
+    }
+
+    DiskList.Delete(edt);
+
+    refresh();
+    refreshAuthor();
+    refreshDisk();
+    refreshSong();
+    AuthorOnEdit(false);
+    DiskOnEdit(false);
+    SongOnEdit(false);
+    OnLoad = false;
+}
+
+
+// Изменение данных песни
+
+
+void MainWindow::on_lineEditSongName_textChanged(const QString &arg1)
+{
+    if (not OnLoad)
+        SongOnEdit(true);
+}
+
+
+void MainWindow::on_pushButtonSongSave_clicked()
+{   
+    if (SongEdited = true)
+    {
+        std::string newSongName = ui->lineEditSongName->text().toStdString();
+        if (newSongName == "")
+            QMessageBox::warning(this, "Warning","Fill the field Song Name");
+        else
+        {
+            bool flag;
+            ListIdAuthor = currentSong.GetAuthors();
+
+            // Обновление связей Авторов
+            std::vector<int> ListIdAuthorOld = est->data.GetAuthors();
+
+            for (int i = 0; i < ListIdAuthorOld.size(); i++)
+            {
+                flag = false;
+                for (int j = 0; j < ListIdAuthor.size(); j++)
+                {
+                    if (ListIdAuthorOld[i] == ListIdAuthor[j])
+                    {
+                        flag = true;
+                        break;
+                    }
+                }
+                if (not flag) // Delete links
+                {
+                    at = AuthorList.GetFirst();
+                    while (at)
+                    {
+                        if (at->data.GetId() == ListIdAuthorOld[i])
+                        {
+                            at->data.RemoveSong(est->data.GetId());
+                            break;
+                        }
+
+                        at = at->next;
+                    }
+                    std::cout << ListIdAuthorOld[i] << " Dell Ne nashel" << std::endl;
+                }
+            }
+
+            for (int i = 0; i < ListIdAuthor.size(); i++)
+            {
+                flag = false;
+                for (int j = 0; j < ListIdAuthorOld.size(); j++)
+                {
+                    if (ListIdAuthor[i] == ListIdAuthorOld[j])
+                    {
+                        flag = true;
+                        break;
+                    }
+                }
+                if (not flag) // Add links
+                {
+                    at = AuthorList.GetFirst();
+                    while (at)
+                    {
+                        if (at->data.GetId() == ListIdAuthor[i])
+                        {
+                            at->data.AddSong(est->data.GetId());
+                            break;
+                        }
+                        at = at->next;
+                    }
+                    std::cout << ListIdAuthor[i] << " Add Ne nashel" << std::endl; // Del
+                }
+            }
+
+            ListIdDisk = currentSong.GetDisks();
+
+            // Обновление связей Дисков
+            std::vector<int> ListIdDiscOld = est->data.GetDisks();
+
+            for (int i = 0; i < ListIdDiscOld.size(); i++)
+            {
+                flag = false;
+                for (int j = 0; j < ListIdDisk.size(); j++)
+                {
+                    if (ListIdDiscOld[i] == ListIdDisk[j])
+                    {
+                        flag = true;
+                        break;
+                    }
+                }
+                if (not flag) // Delete links
+                {
+                    dt = DiskList.GetFirst();
+                    while (dt)
+                    {
+                        if (dt->data.GetId() == ListIdDiscOld[i])
+                        {
+                            dt->data.RemoveSong(est->data.GetId());
+                            break;
+                        }
+
+                        dt = dt->next;
+                    }
+                    std::cout << ListIdDiscOld[i] << " Dell Ne nashel" << std::endl;
+                }
+            }
+
+            for (int i = 0; i < ListIdDisk.size(); i++)
+            {
+                flag = false;
+                for (int j = 0; j < ListIdDiscOld.size(); j++)
+                {
+                    if (ListIdDisk[i] == ListIdDiscOld[j])
+                    {
+                        flag = true;
+                        break;
+                    }
+                }
+                if (not flag) // Add links
+                {
+                    dt = DiskList.GetFirst();
+                    while (dt)
+                    {
+                        if (dt->data.GetId() == ListIdDisk[i])
+                        {
+                            dt->data.AddSong(est->data.GetId());
+                            break;
+                        }
+                        dt = dt->next;
+                    }
+                    std::cout << ListIdDisk[i] << " Add Ne nashel" << std::endl; // Del
+                }
+            }
+
+
+            est->data.SetName(newSongName);
+            est->data.SetAuthors(ListIdAuthor);
+            est->data.SetDisks(ListIdDisk);
+            OnLoad = true;
+            refreshAuthor();
+            refreshDisk();
+            refresh();
+            SongOnEdit(false);
+            SongEditActivated(true);
+            OnLoad = false;
+        }
+    }
+
+}
+
+void MainWindow::on_pushButtonSongDiscard_clicked()
+{
+    refreshSong();
+    SongOnEdit(false);
+}
+
+void MainWindow::on_pushButtonSongNew_clicked()
+{
+    if (SongList.GetCount() == 0)
+        SongId = 1;
+    else
+        SongId = SongList.GetLast()->data.GetId() + 1;
+    SongName = "Song" + std::to_string(SongId);
+    ListIdAuthor = {};
+    ListIdDisk = {};
+    currentSong.ChangeSong(SongId, SongName, ListIdAuthor, ListIdDisk);
+    SongList.AddEnd(currentSong);
+    refresh();
+}
+
+void MainWindow::on_pushButtonSongDelete_clicked()
+{
+    OnLoad = true;
+    SongId = est->data.GetId();
+    ListIdAuthor = est->data.GetAuthors();
+    ListIdDisk = est->data.GetDisks();
+
+    // Удаление связей с авторами
+    for (int i = 0; i < ListIdAuthor.size(); i++)
+    {
+        at = AuthorList.GetFirst();
+        while (at)
+        {
+            if (at->data.GetId() == ListIdAuthor[i])
+            {
+                at->data.RemoveSong(SongId);
+                break;
+            }
+            at = at->next;
+        }
+    }
+    // Удаление связей с дисками
+    for (int i = 0; i < ListIdDisk.size(); i++)
+    {
+        dt = DiskList.GetFirst();
+        while (dt)
+        {
+            if (dt->data.GetId() == ListIdDisk[i])
+            {
+                dt->data.RemoveSong(SongId);
+                break;
+            }
+            dt = dt->next;
+        }
+    }
+
+
+    SongList.Delete(est);
+
+    refresh();
+    refreshAuthor();
+    refreshDisk();
+    refreshSong();
+    AuthorOnEdit(false);
+    DiskOnEdit(false);
+    SongOnEdit(false);
+    OnLoad = false;
+}
+
+
+
+void MainWindow::on_pushButtonSongAddAuthor_clicked()
+{
+    if (ui->comboBoxSongAddAuthor->currentIndex() != -1)
+    {
+        SongOnEdit(true);
+        currentSong.AddAuthor(AuthorList.Move(ui->comboBoxSongAddAuthor->currentIndex())->data.GetId());
+        ui->listWidgetSongAuthorList->item(ui->comboBoxSongAddAuthor->currentIndex())->setHidden(false);
+    }
+}
+
+void MainWindow::on_pushButtonSongAddDisk_clicked()
+{
+    if (ui->comboBoxSongAddDisk->currentIndex() != -1)
+    {
+        SongOnEdit(true);
+        currentSong.AddDisk(DiskList.Move(ui->comboBoxSongAddDisk->currentIndex())->data.GetId());
+        ui->listWidgetSongDiskList->item(ui->comboBoxSongAddDisk->currentIndex())->setHidden(false);
+    }
+}
+
+void MainWindow::on_pushButtonSongDeleteAuthor_clicked()
+{
+    if (ui->listWidgetSongAuthorList->currentIndex().row() != -1)
+    {
+        SongOnEdit(true);
+        currentSong.AddAuthor(AuthorList.Move(ui->listWidgetSongAuthorList->currentIndex().row())->data.GetId());
+        ui->listWidgetSongAuthorList->item(ui->listWidgetSongAuthorList->currentIndex().row())->setHidden(true);
+    }
+}
+
+void MainWindow::on_pushButtonSongDeleteDisk_clicked()
+{
+    if (ui->listWidgetSongDiskList->currentIndex().row() != -1)
+    {
+        SongOnEdit(true);
+        currentSong.AddDisk(DiskList.Move(ui->listWidgetSongDiskList->currentIndex().row())->data.GetId());
+        ui->listWidgetSongDiskList->item(ui->listWidgetSongDiskList->currentIndex().row())->setHidden(true);
+    }
 }

@@ -32,10 +32,12 @@ public:
 
     void AddAuthor(int authorid);    // Добавить автора песни
     void RemoveAuthor(int authorid); // Удалить автора песни
+    void SetAuthors(std::vector<int> _ListIdAuthor); //Установить авторов песни
     std::vector<int> GetAuthors();   // Получить авторов песни
 
     void AddDisk(int diskid);    // Добавить диск песне
     void RemoveDisk(int diskid); // Удалить диск песни
+    void SetDisks(std::vector<int> _ListIdDisk); //Установить диски песни
     std::vector<int> GetDisks(); // Получить диски песни
 };
 // Установить все поля песни
@@ -107,6 +109,17 @@ void Song::RemoveDisk(int diskid)
 std::vector<int> Song::GetDisks()
 {
     return ListIdDisk;
+}
+
+
+void Song::SetAuthors(std::vector<int> _ListIdAuthor)
+{
+    ListIdAuthor = _ListIdAuthor;
+}
+
+void Song::SetDisks(std::vector<int> _ListIdDisk)
+{
+    ListIdDisk = _ListIdDisk;
 }
 
 
