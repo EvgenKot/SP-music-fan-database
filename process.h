@@ -11,7 +11,7 @@
 #include "song.h"
 #include "disk.h"
 
-std::string SearchSongName(List<Song> SongList, int SongId)
+std::string SearchName(List<Song> SongList, int SongId)
 {
     Element<Song> *t = SongList.GetFirst();
     while (t)
@@ -23,7 +23,7 @@ std::string SearchSongName(List<Song> SongList, int SongId)
     return "NOREF";
 }
 
-std::string SearchAuthorName(List<Author> AuthorList, int AuthorId)
+std::string SearchName(List<Author> AuthorList, int AuthorId)
 {
     Element<Author> *t = AuthorList.GetFirst();
     while (t)
@@ -35,7 +35,7 @@ std::string SearchAuthorName(List<Author> AuthorList, int AuthorId)
     return "NOREF";
 }
 
-std::string SearchDiskName(List<Disk> DiskList, int DiskId)
+std::string SearchName(List<Disk> DiskList, int DiskId)
 {
     Element<Disk> *t = DiskList.GetFirst();
     while (t)

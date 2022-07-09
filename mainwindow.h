@@ -133,6 +133,8 @@ private slots:
 
     void on_pushButtonSongDeleteDisk_clicked();
 
+    void on_actionNew_File_triggered();
+
 private:
     Ui::MainWindow *ui;
     About *about;
