@@ -8,9 +8,9 @@
 class Disk
 {
 private:
-    int DiskId;           //Id диска
-    std::string DiskName; //Название диска
-    std::vector <int> ListIdSong;    //Список песен
+    int DiskId;                  // Id диска
+    std::string DiskName;        //Название диска
+    std::vector<int> ListIdSong; //Список песен
 
 public:
     Disk()
@@ -19,7 +19,7 @@ public:
         DiskName = "";
         ListIdSong = {};
     }
-    
+
     void ChangeDisk(int _DiskId, std::string _DiskName, std::vector<int> _ListIdSong);
 
     void SetId(int _DiskId); //Изменить Id диска
@@ -31,15 +31,15 @@ public:
     void Show();                 //Показать список песен диска
     void AddSong(int songid);    //Добавить песню диску
     void RemoveSong(int songid); //Удалить песню у диска
-    std::vector <int> GetSongs(); //Получить песни у диска
+    std::vector<int> GetSongs(); //Получить песни у диска
 };
 
 void Disk::ChangeDisk(int _DiskId, std::string _DiskName, std::vector<int> _ListIdSong)
-    {
-        DiskId = _DiskId;
-        DiskName = _DiskName;
-        ListIdSong = _ListIdSong;
-    }
+{
+    DiskId = _DiskId;
+    DiskName = _DiskName;
+    ListIdSong = _ListIdSong;
+}
 
 void Disk::SetId(int _DiskId)
 {
@@ -59,7 +59,7 @@ std::string Disk::GetName()
     return DiskName;
 }
 
-std::vector <int> Disk::GetSongs()
+std::vector<int> Disk::GetSongs()
 {
     return ListIdSong;
 }

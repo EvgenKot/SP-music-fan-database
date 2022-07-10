@@ -84,7 +84,6 @@ Element<Song> *SearchElemetById(List<Song> SongList, int SongId)
     }
     return NULL;
 }
-
 // Удаление связей Автора
 void deleteLinks(Element<Author> *at, List<Song> &SongList)
 {
@@ -163,7 +162,7 @@ void deleteLinks(Element<Song> *st, List<Author> &AuthorList, List<Disk> &DiskLi
     }
 }
 
-nlohmann::json jsonFromFile(std::string FileNameInput)
+nlohmann::ordered_json jsonFromFile(std::string FileNameInput)
 {
     std::ifstream ifs{FileNameInput}; //Открытие файла
     if (!ifs.is_open())
@@ -171,20 +170,20 @@ nlohmann::json jsonFromFile(std::string FileNameInput)
         std::cerr << "Unable to open file\n";
         throw 1;
     }
-    nlohmann::json file_json = nlohmann::json::parse(ifs); //Перевод в Json
+    nlohmann::ordered_json file_json = nlohmann::ordered_json::parse(ifs); //Перевод в Json
     ifs.close(); //Закрытие файла
 
     return file_json;
 }
 
 // Чтение Json в Лист
-void readAuthors(nlohmann::json file_json, List<Author> &AuthorList)
+void readAuthors(nlohmann::ordered_json file_json, List<Author> &AuthorList)
 {
     int AuthorId;
     std::string AuthorName;
     std::vector<int> AuthorListIdSong;
     Author currentAuthor;
-    for (nlohmann::json::iterator it1 = file_json.at("authors").begin(); it1 != file_json.at("authors").end(); ++it1)
+    for (nlohmann::ordered_json::iterator it1 = file_json.at("authors").begin(); it1 != file_json.at("authors").end(); ++it1)
     {
         AuthorId = std::stoi(it1.key());
         AuthorName = file_json.at("authors").at(it1.key())["name"].get<std::string>();
@@ -194,13 +193,13 @@ void readAuthors(nlohmann::json file_json, List<Author> &AuthorList)
     }
 }
 // Чтение Json в Лист
-void readDisks(nlohmann::json file_json, List<Disk> &DiskList)
+void readDisks(nlohmann::ordered_json file_json, List<Disk> &DiskList)
 {
     int DiskId;
     std::string DiskName;
     std::vector<int> DiskListIdSong;
     Disk currentDisk;
-    for (nlohmann::json::iterator it1 = file_json.at("disks").begin(); it1 != file_json.at("disks").end(); ++it1)
+    for (nlohmann::ordered_json::iterator it1 = file_json.at("disks").begin(); it1 != file_json.at("disks").end(); ++it1)
     {
         DiskId = std::stoi(it1.key());
         DiskName = file_json.at("disks").at(it1.key())["name"].get<std::string>();
@@ -210,14 +209,14 @@ void readDisks(nlohmann::json file_json, List<Disk> &DiskList)
     }
 }
 // Чтение Json в Лист
-void readSongs(nlohmann::json file_json, List<Song> &SongList)
+void readSongs(nlohmann::ordered_json file_json, List<Song> &SongList)
 {
     int SongId;
     std::string SongName;
     std::vector<int> ListIdAuthor;
     std::vector<int> ListIdDisk;
     Song currentSong;
-    for (nlohmann::json::iterator it1 = file_json.at("songs").begin(); it1 != file_json.at("songs").end(); ++it1)
+    for (nlohmann::ordered_json::iterator it1 = file_json.at("songs").begin(); it1 != file_json.at("songs").end(); ++it1)
     {
         SongId = std::stoi(it1.key());
         SongName = file_json.at("songs").at(it1.key())["name"].get<std::string>();

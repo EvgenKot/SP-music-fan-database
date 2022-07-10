@@ -30,15 +30,15 @@ public:
     void SetName(std::string _SongName); // Изменить название песни
     std::string GetName();               // Получить название песни
 
-    void AddAuthor(int authorid);    // Добавить автора песни
-    void RemoveAuthor(int authorid); // Удалить автора песни
+    void AddAuthor(int authorid);                    // Добавить автора песни
+    void RemoveAuthor(int authorid);                 // Удалить автора песни
     void SetAuthors(std::vector<int> _ListIdAuthor); //Установить авторов песни
-    std::vector<int> GetAuthors();   // Получить авторов песни
+    std::vector<int> GetAuthors();                   // Получить авторов песни
 
-    void AddDisk(int diskid);    // Добавить диск песне
-    void RemoveDisk(int diskid); // Удалить диск песни
+    void AddDisk(int diskid);                    // Добавить диск песне
+    void RemoveDisk(int diskid);                 // Удалить диск песни
     void SetDisks(std::vector<int> _ListIdDisk); //Установить диски песни
-    std::vector<int> GetDisks(); // Получить диски песни
+    std::vector<int> GetDisks();                 // Получить диски песни
 };
 // Установить все поля песни
 void Song::ChangeSong(int _SongId, std::string _SongName, std::vector<int> _ListIdAuthor, std::vector<int> _ListIdDisk)
@@ -111,7 +111,6 @@ std::vector<int> Song::GetDisks()
     return ListIdDisk;
 }
 
-
 void Song::SetAuthors(std::vector<int> _ListIdAuthor)
 {
     ListIdAuthor = _ListIdAuthor;
@@ -121,6 +120,5 @@ void Song::SetDisks(std::vector<int> _ListIdDisk)
 {
     ListIdDisk = _ListIdDisk;
 }
-
 
 #endif // SONG_H

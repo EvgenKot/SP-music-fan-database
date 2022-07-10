@@ -11,7 +11,7 @@
 #include "ui_mainwindow.h"
 #include "process.h"
 
-
+// Авторы
 List<Author> AuthorList;
 Element<Author> *at;  // Элемент для вывода всех значений
 Element<Author> *eat; // Изменямый в данный момент элемент
@@ -20,6 +20,7 @@ int AuthorId;
 std::string AuthorName;
 std::vector<int> AuthorListIdSong;
 
+// Диски
 List<Disk> DiskList;
 Element<Disk> *dt;  // Элемент для вывода всех значений
 Element<Disk> *edt; // Изменямый в данный момент элемент
@@ -28,6 +29,7 @@ int DiskId;
 std::string DiskName;
 std::vector<int> DiskListIdSong;
 
+// Песни
 List<Song> SongList;
 Element<Song> *st;  // Элемент для вывода всех значений
 Element<Song> *est; // Изменямый в данный момент элемент
@@ -37,10 +39,12 @@ std::string SongName;
 std::vector<int> ListIdAuthor;
 std::vector<int> ListIdDisk;
 
+// Файлы
 QString fileNameInput;
 QString fileNameOutput;
 QString fileNameDefaultOutput;
 
+// Состояния
 bool AuthorEdited = false;
 bool DiskEdited = false;
 bool SongEdited = false;
@@ -283,7 +287,7 @@ void MainWindow::on_pushButtonDisplaySearchByAuthor_clicked() // Поиск пе
 }
 
 void MainWindow::on_pushButtonDisplaySearchBySong_clicked() // Поиск дисков, где встречается заданная песня
-{   
+{
     if (ui->comboBoxDisplaySearchBySong->currentIndex() != -1)
     {
         report = new Report(this);
@@ -332,7 +336,7 @@ void MainWindow::on_actionOpen_File_triggered() // Открытие файла
     fileNameInput = QFileDialog::getOpenFileName(this, tr("Open base"), tr("Image Files (*.json)"));
     if (fileNameInput != "")
     {
-        nlohmann::json file_json;
+        nlohmann::ordered_json file_json;
         try
         {
             qDebug() << "Opening" << fileNameInput << "...";
@@ -460,7 +464,7 @@ void MainWindow::saving(const QString fileNameOutput) // Сохранение
             ui->statusBar->showMessage("Saving as \"" + fileNameOutput + "\"...");
             qDebug() << "Saving as " << fileNameOutput;
 
-            nlohmann::json output_file_json{};
+            nlohmann::ordered_json output_file_json{};
 
             std::cout << "Author writing..." << std::endl;
             at = AuthorList.GetFirst();

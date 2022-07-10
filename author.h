@@ -35,11 +35,11 @@ public:
 };
 
 void Author::ChangeAuthor(int _AuthorId, std::string _AuthorName, std::vector<int> _ListIdSong)
-    {
-        AuthorId = _AuthorId;
-        AuthorName = _AuthorName;
-        ListIdSong = _ListIdSong;
-    }
+{
+    AuthorId = _AuthorId;
+    AuthorName = _AuthorName;
+    ListIdSong = _ListIdSong;
+}
 
 void Author::SetId(int _AuthorId)
 {
@@ -80,6 +80,5 @@ void Author::RemoveSong(int songid)
         if (ListIdSong[i] == songid)
             ListIdSong.erase(ListIdSong.begin() + i);
 }
-
 
 #endif // AUTHOR
