@@ -10,6 +10,13 @@
 #include "author.h"
 #include "song.h"
 #include "disk.h"
+
+class Process
+{
+   public:
+    
+};
+
 // Возвращает имя песни по id
 std::string SearchName(List<Song> SongList, int SongId)
 {

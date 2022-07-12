@@ -315,7 +315,6 @@ void MainWindow::on_pushButtonDisplaySearchBySong_clicked() // Поиск дис
         qDebug() << "Display: song disks report created";
         ui->statusBar->showMessage("Display: song disks report created");
     }
-
 }
 
 void MainWindow::on_actionOpen_File_triggered() // Открытие файла
@@ -458,55 +457,42 @@ void MainWindow::saving(const QString fileNameOutput) // Сохранение
 
     if (fileNameOutput != "")
     {
-
+        nlohmann::ordered_json output_file_json{};
         try
         {
             ui->statusBar->showMessage("Saving as \"" + fileNameOutput + "\"...");
             qDebug() << "Saving as " << fileNameOutput;
 
-            nlohmann::ordered_json output_file_json{};
-
             std::cout << "Author writing..." << std::endl;
-            at = AuthorList.GetFirst();
-            while (at)
-            {
-                output_file_json["authors"][std::to_string(at->data.GetId())]["name"] = at->data.GetName();
-                output_file_json["authors"][std::to_string(at->data.GetId())]["songs"] = at->data.GetSongs();
-                at = at->next;
-            }
+            writeAuthors(output_file_json, AuthorList);
             std::cout << "Author writing completed." << std::endl;
 
             std::cout << "Disk writing..." << std::endl;
-            dt = DiskList.GetFirst();
-            while (dt)
-            {
-                output_file_json["disks"][std::to_string(dt->data.GetId())]["name"] = dt->data.GetName();
-                output_file_json["disks"][std::to_string(dt->data.GetId())]["songs"] = dt->data.GetSongs();
-                dt = dt->next;
-            }
+            writeDisks(output_file_json, DiskList);
             std::cout << "Disk writing completed." << std::endl;
 
             std::cout << "Song writing..." << std::endl;
-            st = SongList.GetFirst();
-            while (st)
-            {
-                output_file_json["songs"][std::to_string(st->data.GetId())]["name"] = st->data.GetName();
-                output_file_json["songs"][std::to_string(st->data.GetId())]["authors"] = st->data.GetAuthors();
-                output_file_json["songs"][std::to_string(st->data.GetId())]["disks"] = st->data.GetDisks();
-                st = st->next;
-            }
+            writeSongs(output_file_json, SongList);
             std::cout << "Song writing completed." << std::endl;
-
+        }
+        catch (...)
+        {
+            qDebug() << "Error while converting to json";
+            ui->statusBar->showMessage("Error while converting to json");
+            QMessageBox::warning(this, "Warning", "Error while converting to json");
+            return;
+        }
+        try
+        {
             //Вывод в файл
-            std::ofstream outputstream(fileNameOutput.toStdString());
-            outputstream << output_file_json << std::endl;
+            std::string Output = fileNameOutput.toStdString();
+            jsonToFile(output_file_json, Output);
 
             DataChanged = false;
             ui->statusBar->showMessage("Saved");
             qDebug() << "Saved";
             fileNameDefaultOutput = fileNameOutput;
         }
-
         catch (...)
         {
             qDebug() << "Error while saving";
@@ -561,7 +547,7 @@ void MainWindow::on_actionExit_triggered() // Выход
 
 //Вкладка Авторы
 
-void MainWindow::AuthorGoToEdit(int index)
+void MainWindow::AuthorGoToEdit(int index) // Переход к изменению автора
 {
     OnLoad = true;
     ui->listWidgetAuthorSongList->clear();
@@ -604,7 +590,7 @@ void MainWindow::AuthorGoToEdit(int index)
     AuthorEditActivated(true);
 }
 
-void MainWindow::on_listWidgetAuthorGoTo_doubleClicked(const QModelIndex &index) // Переход на позицию
+void MainWindow::on_listWidgetAuthorGoTo_doubleClicked(const QModelIndex &index) // Переход на позицию по двойному щелчку
 {
     AuthorGoToEdit(index.row());
 }
@@ -644,7 +630,7 @@ void MainWindow::on_pushButtonAuthorEditSong_clicked() // Кнопка пере�
 
 //Вкладка Диски
 
-void MainWindow::DiskGoToEdit(int index)
+void MainWindow::DiskGoToEdit(int index) // Переход к изменению диска
 {
     OnLoad = true;
     ui->listWidgetDiskSongList->clear();
@@ -660,14 +646,12 @@ void MainWindow::DiskGoToEdit(int index)
 
     ui->lineEditDiskId->setText(QString::number(DiskId));
     ui->lineEditDiskName->setText(QString::fromUtf8((DiskName).data(), (DiskName).size()));
-    // QString currentSongName;
     if (SongList.GetCount() != 0)
     {
         st = SongList.GetFirst();
         QString currentSongName;
         while (st)
         {
-            // setHidden(true),
             currentSongName = QString::fromUtf8((st->data.GetName()).data(), (st->data.GetName()).size());
             QListWidgetItem *item = new QListWidgetItem(currentSongName);
             ui->listWidgetDiskSongList->addItem(item);
@@ -687,7 +671,7 @@ void MainWindow::DiskGoToEdit(int index)
     DiskEditActivated(true);
 }
 
-void MainWindow::on_listWidgetDiskGoTo_doubleClicked(const QModelIndex &index) // Переход на позицию
+void MainWindow::on_listWidgetDiskGoTo_doubleClicked(const QModelIndex &index) // Переход на позицию по двойному щелчку
 {
     DiskGoToEdit(index.row());
 }
@@ -746,15 +730,13 @@ void MainWindow::SongGoToEdit(int index) // Перейти на песню дл�
 
     ui->lineEditSongId->setText(QString::number(SongId));
     ui->lineEditSongName->setText(QString::fromUtf8((SongName).data(), (SongName).size()));
-
+    // Обновление полей Авторов
     QString currentAuthorName;
     if (AuthorList.GetCount() != 0)
     {
         at = AuthorList.GetFirst();
-        // QString currentSongName;
         while (at)
         {
-            // setHidden(true),
             currentAuthorName = QString::fromUtf8((at->data.GetName()).data(), (at->data.GetName()).size());
             QListWidgetItem *item = new QListWidgetItem(currentAuthorName);
             ui->listWidgetSongAuthorList->addItem(item);
@@ -770,15 +752,13 @@ void MainWindow::SongGoToEdit(int index) // Перейти на песню дл�
             at = at->next;
         }
     }
-
+    // Обновление полей Дисков
     QString currentDiskName;
     if (DiskList.GetCount() != 0)
     {
         dt = DiskList.GetFirst();
-        // QString currentSongName;
         while (dt)
         {
-            // setHidden(true),
             currentDiskName = QString::fromUtf8((dt->data.GetName()).data(), (dt->data.GetName()).size());
             QListWidgetItem *item = new QListWidgetItem(currentDiskName);
             ui->listWidgetSongDiskList->addItem(item);
@@ -1011,7 +991,6 @@ void MainWindow::on_pushButtonDiskDelete_clicked() // Удаление теку�
 
     deleteLinks(edt, SongList);
     DiskList.Delete(edt);
-
     refresh(); // Обновление полей.
     refreshAuthor();
     refreshDisk();
@@ -1041,130 +1020,14 @@ void MainWindow::on_pushButtonSongSave_clicked() // Сохранение изм�
             QMessageBox::warning(this, "Warning", "Fill the field Song Name");
         else
         {
-            bool flag;
-            ListIdAuthor = currentSong.GetAuthors();
-
-            // Обновление связей Авторов
-            std::vector<int> ListIdAuthorOld = est->data.GetAuthors();
-
-            for (int i = 0; i < ListIdAuthorOld.size(); i++)
-            {
-                flag = false;
-                for (int j = 0; j < ListIdAuthor.size(); j++)
-                {
-                    if (ListIdAuthorOld[i] == ListIdAuthor[j])
-                    {
-                        flag = true;
-                        break;
-                    }
-                }
-                if (not flag) // Delete links
-                {
-                    at = AuthorList.GetFirst();
-                    while (at)
-                    {
-                        if (at->data.GetId() == ListIdAuthorOld[i])
-                        {
-                            at->data.RemoveSong(est->data.GetId());
-                            break;
-                        }
-
-                        at = at->next;
-                    }
-                    std::cout << ListIdAuthorOld[i] << " Deleteng Author" << std::endl;
-                }
-            }
-
-            for (int i = 0; i < ListIdAuthor.size(); i++)
-            {
-                flag = false;
-                for (int j = 0; j < ListIdAuthorOld.size(); j++)
-                {
-                    if (ListIdAuthor[i] == ListIdAuthorOld[j])
-                    {
-                        flag = true;
-                        break;
-                    }
-                }
-                if (not flag) // Add links
-                {
-                    at = AuthorList.GetFirst();
-                    while (at)
-                    {
-                        if (at->data.GetId() == ListIdAuthor[i])
-                        {
-                            at->data.AddSong(est->data.GetId());
-                            break;
-                        }
-                        at = at->next;
-                    }
-                    std::cout << ListIdAuthor[i] << " Add Author" << std::endl; // Del
-                }
-            }
-
-            ListIdDisk = currentSong.GetDisks();
-
-            // Обновление связей Дисков
-            std::vector<int> ListIdDiscOld = est->data.GetDisks();
-
-            for (int i = 0; i < ListIdDiscOld.size(); i++)
-            {
-                flag = false;
-                for (int j = 0; j < ListIdDisk.size(); j++)
-                {
-                    if (ListIdDiscOld[i] == ListIdDisk[j])
-                    {
-                        flag = true;
-                        break;
-                    }
-                }
-                if (not flag) // Delete links
-                {
-                    dt = DiskList.GetFirst();
-                    while (dt)
-                    {
-                        if (dt->data.GetId() == ListIdDiscOld[i])
-                        {
-                            dt->data.RemoveSong(est->data.GetId());
-                            break;
-                        }
-
-                        dt = dt->next;
-                    }
-                    std::cout << ListIdDiscOld[i] << " Deleteng Disk" << std::endl;
-                }
-            }
-
-            for (int i = 0; i < ListIdDisk.size(); i++)
-            {
-                flag = false;
-                for (int j = 0; j < ListIdDiscOld.size(); j++)
-                {
-                    if (ListIdDisk[i] == ListIdDiscOld[j])
-                    {
-                        flag = true;
-                        break;
-                    }
-                }
-                if (not flag) // Add links
-                {
-                    dt = DiskList.GetFirst();
-                    while (dt)
-                    {
-                        if (dt->data.GetId() == ListIdDisk[i])
-                        {
-                            dt->data.AddSong(est->data.GetId());
-                            break;
-                        }
-                        dt = dt->next;
-                    }
-                    std::cout << ListIdDisk[i] << " Add Disk" << std::endl; // Del
-                }
-            }
+            // Обновление связей Песня-Автор
+            updateLinksSongAuthors(est, currentSong.GetAuthors(), est->data.GetAuthors(), AuthorList);
+            // Обновление связей Песня-Диск
+            updateLinksSongDisks(est, currentSong.GetDisks(), est->data.GetDisks(), DiskList);
 
             est->data.SetName(newSongName);
-            est->data.SetAuthors(ListIdAuthor);
-            est->data.SetDisks(ListIdDisk);
+            est->data.SetAuthors(currentSong.GetAuthors());
+            est->data.SetDisks(currentSong.GetDisks());
             refreshAuthor();
             refreshDisk();
             refresh();
@@ -1206,14 +1069,13 @@ void MainWindow::on_pushButtonSongNew_clicked() // Создание новой �
     DiskOnEdit(false);
 
     DataChanged = true;
-    SongGoToEdit(SongList.GetCount()-1);
+    SongGoToEdit(SongList.GetCount() - 1);
     qDebug() << "Song: Song" << SongId << " added";
     ui->statusBar->showMessage("Song: Song" + QString::number(SongId) + " added");
 }
 
 void MainWindow::on_pushButtonSongDelete_clicked() // Удаление текущей песни
 {
-
 
     SongName = est->data.GetName();
 
