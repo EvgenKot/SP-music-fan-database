@@ -269,13 +269,13 @@ void MainWindow::on_pushButtonDisplaySearchByAuthor_clicked() // Поиск пе
         connect(this, &MainWindow::signalDisplaySearchAddToList, report, &Report::slotDisplaySearchAddToList);
         for (int i = 0; i < AuthorListIdSong.size(); i++)
         {
-            st = SearchElemetById(SongList, AuthorListIdSong[i]);
+            st = Process::SearchElemetById(SongList, AuthorListIdSong[i]);
             SongName = " - " + st->data.GetName();
             ListIdAuthor = st->data.GetAuthors();
-            std::string itemAuhors = SearchElemetById(AuthorList, ListIdAuthor[0])->data.GetName();
+            std::string itemAuhors = Process::SearchElemetById(AuthorList, ListIdAuthor[0])->data.GetName();
             for (int j = 1; j < ListIdAuthor.size(); j++)
             {
-                itemAuhors = itemAuhors + ", " + SearchElemetById(AuthorList, ListIdAuthor[j])->data.GetName();
+                itemAuhors = itemAuhors + ", " + Process::SearchElemetById(AuthorList, ListIdAuthor[j])->data.GetName();
             }
             itemAuhors = itemAuhors + SongName;
             item = QString::fromUtf8(itemAuhors.data(), itemAuhors.size());
@@ -307,7 +307,7 @@ void MainWindow::on_pushButtonDisplaySearchBySong_clicked() // Поиск дис
         connect(this, &MainWindow::signalDisplaySearchAddToList, report, &Report::slotDisplaySearchAddToList);
         for (int i = 0; i < ListIdDisk.size(); i++)
         {
-            dt = SearchElemetById(DiskList, ListIdDisk[i]);
+            dt = Process::SearchElemetById(DiskList, ListIdDisk[i]);
             DiskName = dt->data.GetName();
             item = QString::fromUtf8(DiskName.data(), DiskName.size());
             emit signalDisplaySearchAddToList(item);
@@ -343,7 +343,7 @@ void MainWindow::on_actionOpen_File_triggered() // Открытие файла
 
             std::string FileNameInput = fileNameInput.toStdString();
 
-            file_json = jsonFromFile(FileNameInput);
+            file_json = Process::jsonFromFile(FileNameInput);
         }
         catch (const nlohmann::detail::parse_error &e)
         {
@@ -385,7 +385,7 @@ void MainWindow::on_actionOpen_File_triggered() // Открытие файла
             {
                 std::cout << "Author reading..." << std::endl;
 
-                readAuthors(file_json, AuthorList);
+                Process::readAuthors(file_json, AuthorList);
 
                 std::cout << "Author reading completed." << std::endl;
             }
@@ -399,7 +399,7 @@ void MainWindow::on_actionOpen_File_triggered() // Открытие файла
             {
                 std::cout << "Disk reading..." << std::endl;
 
-                readDisks(file_json, DiskList);
+                Process::readDisks(file_json, DiskList);
 
                 std::cout << "Disk reading completed." << std::endl;
             }
@@ -413,7 +413,7 @@ void MainWindow::on_actionOpen_File_triggered() // Открытие файла
             {
                 std::cout << "Song reading..." << std::endl;
 
-                readSongs(file_json, SongList);
+                Process::readSongs(file_json, SongList);
 
                 std::cout << "Song reading completed." << std::endl;
             }
@@ -464,15 +464,15 @@ void MainWindow::saving(const QString fileNameOutput) // Сохранение
             qDebug() << "Saving as " << fileNameOutput;
 
             std::cout << "Author writing..." << std::endl;
-            writeAuthors(output_file_json, AuthorList);
+            Process::writeAuthors(output_file_json, AuthorList);
             std::cout << "Author writing completed." << std::endl;
 
             std::cout << "Disk writing..." << std::endl;
-            writeDisks(output_file_json, DiskList);
+            Process::writeDisks(output_file_json, DiskList);
             std::cout << "Disk writing completed." << std::endl;
 
             std::cout << "Song writing..." << std::endl;
-            writeSongs(output_file_json, SongList);
+            Process::writeSongs(output_file_json, SongList);
             std::cout << "Song writing completed." << std::endl;
         }
         catch (...)
@@ -486,7 +486,7 @@ void MainWindow::saving(const QString fileNameOutput) // Сохранение
         {
             //Вывод в файл
             std::string Output = fileNameOutput.toStdString();
-            jsonToFile(output_file_json, Output);
+            Process::jsonToFile(output_file_json, Output);
 
             DataChanged = false;
             ui->statusBar->showMessage("Saved");
@@ -906,7 +906,7 @@ void MainWindow::on_pushButtonAuthorDelete_clicked() // Удаление тек�
 {
     AuthorName = eat->data.GetName();
 
-    deleteLinks(eat, SongList);
+    Process::deleteLinks(eat, SongList);
     AuthorList.Delete(eat);
 
     refresh();
@@ -989,7 +989,7 @@ void MainWindow::on_pushButtonDiskDelete_clicked() // Удаление теку�
 {
     DiskName = edt->data.GetName();
 
-    deleteLinks(edt, SongList);
+    Process::deleteLinks(edt, SongList);
     DiskList.Delete(edt);
     refresh(); // Обновление полей.
     refreshAuthor();
@@ -1021,9 +1021,9 @@ void MainWindow::on_pushButtonSongSave_clicked() // Сохранение изм�
         else
         {
             // Обновление связей Песня-Автор
-            updateLinksSongAuthors(est, currentSong.GetAuthors(), est->data.GetAuthors(), AuthorList);
+            Process::updateLinksSongAuthors(est, currentSong.GetAuthors(), est->data.GetAuthors(), AuthorList);
             // Обновление связей Песня-Диск
-            updateLinksSongDisks(est, currentSong.GetDisks(), est->data.GetDisks(), DiskList);
+            Process::updateLinksSongDisks(est, currentSong.GetDisks(), est->data.GetDisks(), DiskList);
 
             est->data.SetName(newSongName);
             est->data.SetAuthors(currentSong.GetAuthors());
@@ -1079,7 +1079,7 @@ void MainWindow::on_pushButtonSongDelete_clicked() // Удаление теку�
 
     SongName = est->data.GetName();
 
-    deleteLinks(est, AuthorList, DiskList);
+    Process::deleteLinks(est, AuthorList, DiskList);
     SongList.Delete(est);
 
     refresh();
@@ -1170,3 +1170,5 @@ void MainWindow::on_actionNew_File_triggered() // Создание нового 
     qDebug() << "New base created";
     ui->statusBar->showMessage("New base created");
 }
+
+

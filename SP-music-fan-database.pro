@@ -15,7 +15,8 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     about.cpp \
-    report.cpp
+    report.cpp \
+    process.cpp
 
 HEADERS  += mainwindow.h \
     about.h \

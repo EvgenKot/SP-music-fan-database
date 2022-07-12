@@ -1,24 +1,16 @@
-#ifndef PROCESS_H
-#define PROCESS_H
-
 #include <iostream>
 #include <vector>
 #include <string>
 #include <fstream>
 #include <nlohmann/json.hpp>
+#include "process.h"
 #include "list.h"
 #include "author.h"
 #include "song.h"
 #include "disk.h"
 
-class Process
-{
-   public:
-    
-};
-
 // Возвращает имя песни по id
-std::string SearchName(List<Song> SongList, int SongId)
+std::string Process::SearchName(List<Song> SongList, int SongId)
 {
     Element<Song> *t = SongList.GetFirst();
     while (t)
@@ -30,7 +22,7 @@ std::string SearchName(List<Song> SongList, int SongId)
     return "NOREF";
 }
 // Возвращает имя Автора по id
-std::string SearchName(List<Author> AuthorList, int AuthorId)
+std::string Process::SearchName(List<Author> AuthorList, int AuthorId)
 {
     Element<Author> *t = AuthorList.GetFirst();
     while (t)
@@ -42,7 +34,7 @@ std::string SearchName(List<Author> AuthorList, int AuthorId)
     return "NOREF";
 }
 // Возвращает имя Диска по id
-std::string SearchName(List<Disk> DiskList, int DiskId)
+std::string Process::SearchName(List<Disk> DiskList, int DiskId)
 {
     Element<Disk> *t = DiskList.GetFirst();
     while (t)
@@ -56,7 +48,7 @@ std::string SearchName(List<Disk> DiskList, int DiskId)
 
 
 // Поиск элемента по id среди авторов
-Element<Author> *SearchElemetById(List<Author> AuthorList, int AuthorId)
+Element<Author> *Process::SearchElemetById(List<Author> AuthorList, int AuthorId)
 {
     Element<Author> *t = AuthorList.GetFirst();
     while (t)
@@ -68,7 +60,7 @@ Element<Author> *SearchElemetById(List<Author> AuthorList, int AuthorId)
     return NULL;
 }
 // Поиск элемента по id среди дисков
-Element<Disk> *SearchElemetById(List<Disk> DiskList, int DiskId)
+Element<Disk> *Process::SearchElemetById(List<Disk> DiskList, int DiskId)
 {
     Element<Disk> *t = DiskList.GetFirst();
     while (t)
@@ -80,7 +72,7 @@ Element<Disk> *SearchElemetById(List<Disk> DiskList, int DiskId)
     return NULL;
 }
 // Поиск элемента по id среди песен
-Element<Song> *SearchElemetById(List<Song> SongList, int SongId)
+Element<Song> *Process::SearchElemetById(List<Song> SongList, int SongId)
 {
     Element<Song> *t = SongList.GetFirst();
     while (t)
@@ -93,7 +85,7 @@ Element<Song> *SearchElemetById(List<Song> SongList, int SongId)
 }
 
 // Удаление связей Автора
-void deleteLinks(Element<Author> *at, List<Song> &SongList)
+void Process::deleteLinks(Element<Author> *at, List<Song> &SongList)
 {
     int AuthorId = at->data.GetId();
     std::vector<int> AuthorListIdSong = at->data.GetSongs();
@@ -113,7 +105,7 @@ void deleteLinks(Element<Author> *at, List<Song> &SongList)
 
 }
 // Удаление связей Диска
-void deleteLinks(Element<Disk> *dt, List<Song> &SongList)
+void Process::deleteLinks(Element<Disk> *dt, List<Song> &SongList)
 {
     int DiskId = dt->data.GetId();
     std::vector<int> DiskListIdSong = dt->data.GetSongs();
@@ -133,7 +125,7 @@ void deleteLinks(Element<Disk> *dt, List<Song> &SongList)
     }
 }
 // Удаление связей Песни
-void deleteLinks(Element<Song> *st, List<Author> &AuthorList, List<Disk> &DiskList)
+void Process::deleteLinks(Element<Song> *st, List<Author> &AuthorList, List<Disk> &DiskList)
 {
     int SongId = st->data.GetId();
 
@@ -170,7 +162,7 @@ void deleteLinks(Element<Song> *st, List<Author> &AuthorList, List<Disk> &DiskLi
     }
 }
 // Открытие файла запись в json
-nlohmann::ordered_json jsonFromFile(std::string FileNameInput)
+nlohmann::ordered_json Process::jsonFromFile(std::string FileNameInput)
 {
     std::ifstream ifs{FileNameInput}; //Открытие файла
     if (!ifs.is_open())
@@ -185,7 +177,7 @@ nlohmann::ordered_json jsonFromFile(std::string FileNameInput)
 }
 
 // Чтение Json в Лист
-void readAuthors(nlohmann::ordered_json file_json, List<Author> &AuthorList)
+void Process::readAuthors(nlohmann::ordered_json file_json, List<Author> &AuthorList)
 {
     int AuthorId;
     std::string AuthorName;
@@ -201,7 +193,7 @@ void readAuthors(nlohmann::ordered_json file_json, List<Author> &AuthorList)
     }
 }
 // Чтение Json в Лист
-void readDisks(nlohmann::ordered_json file_json, List<Disk> &DiskList)
+void Process::readDisks(nlohmann::ordered_json file_json, List<Disk> &DiskList)
 {
     int DiskId;
     std::string DiskName;
@@ -217,7 +209,7 @@ void readDisks(nlohmann::ordered_json file_json, List<Disk> &DiskList)
     }
 }
 // Чтение Json в Лист
-void readSongs(nlohmann::ordered_json file_json, List<Song> &SongList)
+void Process::readSongs(nlohmann::ordered_json file_json, List<Song> &SongList)
 {
     int SongId;
     std::string SongName;
@@ -236,7 +228,7 @@ void readSongs(nlohmann::ordered_json file_json, List<Song> &SongList)
 }
 
 // Запись в json авторов
-void writeAuthors(nlohmann::ordered_json &output_file_json, List<Author> &AuthorList)
+void Process::writeAuthors(nlohmann::ordered_json &output_file_json, List<Author> &AuthorList)
 {
     Element<Author> *at = AuthorList.GetFirst();
     while (at)
@@ -247,7 +239,7 @@ void writeAuthors(nlohmann::ordered_json &output_file_json, List<Author> &Author
     }
 }
 // Запись в json дисков
-void writeDisks(nlohmann::ordered_json &output_file_json, List<Disk> &DiskList)
+void Process::writeDisks(nlohmann::ordered_json &output_file_json, List<Disk> &DiskList)
 {
     Element<Disk> *dt = DiskList.GetFirst();
     while (dt)
@@ -258,7 +250,7 @@ void writeDisks(nlohmann::ordered_json &output_file_json, List<Disk> &DiskList)
     }
 }
 // Запись в json песен
-void writeSongs(nlohmann::ordered_json &output_file_json, List<Song> &SongList)
+void Process::writeSongs(nlohmann::ordered_json &output_file_json, List<Song> &SongList)
 {
     Element<Song> *st = SongList.GetFirst();
     while (st)
@@ -270,7 +262,7 @@ void writeSongs(nlohmann::ordered_json &output_file_json, List<Song> &SongList)
     }
 }
 // Запись в файл из json
-void jsonToFile(nlohmann::ordered_json output_file_json, std::string Output)
+void Process::jsonToFile(nlohmann::ordered_json output_file_json, std::string Output)
 {
     std::ofstream outputstream(Output);
     outputstream << output_file_json << std::endl;
@@ -278,7 +270,7 @@ void jsonToFile(nlohmann::ordered_json output_file_json, std::string Output)
 }
 
 // Обновление связей Авторов
-void updateLinksSongAuthors(Element<Song> *est, std::vector<int> ListIdAuthor, std::vector<int> ListIdAuthorOld, List<Author> &AuthorList)
+void Process::updateLinksSongAuthors(Element<Song> *est, std::vector<int> ListIdAuthor, std::vector<int> ListIdAuthorOld, List<Author> &AuthorList)
 {
     Element<Author> *at;
     bool flag;
@@ -339,7 +331,7 @@ void updateLinksSongAuthors(Element<Song> *est, std::vector<int> ListIdAuthor, s
 }
 
 // Обновление связей Дисков
-void updateLinksSongDisks(Element<Song> *est, std::vector<int> ListIdDisk, std::vector<int> ListIdDiscOld, List<Disk> &DiskList)
+void Process::updateLinksSongDisks(Element<Song> *est, std::vector<int> ListIdDisk, std::vector<int> ListIdDiscOld, List<Disk> &DiskList)
 {
     bool flag;
     Element<Disk> *dt;
@@ -400,6 +392,3 @@ void updateLinksSongDisks(Element<Song> *est, std::vector<int> ListIdDisk, std::
         }
     }
 }
-
-
-#endif // PROCESS_H
