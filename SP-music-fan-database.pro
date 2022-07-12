@@ -16,7 +16,10 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     about.cpp \
     report.cpp \
-    process.cpp
+    process.cpp \
+    author.cpp \
+    disk.cpp \
+    song.cpp
 
 HEADERS  += mainwindow.h \
     about.h \

@@ -4,10 +4,7 @@
 #include <fstream>
 #include <nlohmann/json.hpp>
 #include "process.h"
-#include "list.h"
-#include "author.h"
-#include "song.h"
-#include "disk.h"
+
 
 // Возвращает имя песни по id
 std::string Process::SearchName(List<Song> SongList, int SongId)
