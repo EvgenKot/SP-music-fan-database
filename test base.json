@@ -1,0 +1,108 @@
+{
+    "authors": {
+        "1": {
+            "name": "makerA",
+            "songs": [
+                1,
+                2,
+                3
+            ]
+        },
+        "2": {
+            "name": "makerB",
+            "songs": [
+                1,
+                2,
+                5,
+                6,
+                7
+            ]
+        }
+    },
+    "disks": {
+        "1": {
+            "name": "diskA",
+            "songs": [
+                1,
+                2,
+                3
+            ]
+        },
+        "2": {
+            "name": "diskB",
+            "songs": [
+                4,
+                5,
+                6,
+                7
+            ]
+        }
+    },
+    "songs": {
+        "1": {
+            "authors": [
+                1,
+                2
+            ],
+            "disks": [
+                1
+            ],
+            "name": "songA"
+        },
+        "2": {
+            "authors": [
+                1,
+                2
+            ],
+            "disks": [
+                1
+            ],
+            "name": "songB"
+        },
+        "3": {
+            "authors": [
+                1
+            ],
+            "disks": [
+                1
+            ],
+            "name": "songC"
+        },
+        "4": {
+            "authors": [
+                2
+            ],
+            "disks": [
+                2
+            ],
+            "name": "songD"
+        },
+        "5": {
+            "authors": [
+                2
+            ],
+            "disks": [
+                2
+            ],
+            "name": "songE"
+        },
+        "6": {
+            "authors": [
+                2
+            ],
+            "disks": [
+                2
+            ],
+            "name": "songF"
+        },
+        "7": {
+            "authors": [
+                2
+            ],
+            "disks": [
+                2
+            ],
+            "name": "songG"
+        }
+    }
+}

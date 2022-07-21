@@ -113,7 +113,7 @@ Element<T> *List<T>::Move(int index)
     }
     else
         std::cout << "Out of range ERROR" << std::endl;
-    return tail;
+    return NULL;
 }
 
 // Добавить элемент в конец списка
@@ -182,7 +182,7 @@ void List<T>::SetElement(T _data, Element<T> *t)
 template <class T>
 void List<T>::Delete(Element<T> *item)
 {
-    if (count == 0) // Проверка, не пустой ли список
+    if (count == 0 || item == NULL) // Проверка, на пустоту списка и существования элемента
         return;
 
     Element<T> *itemPrev = item->prev; // Предыдущий элемент

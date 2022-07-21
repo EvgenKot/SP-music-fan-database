@@ -12,7 +12,7 @@ std::string Process::SearchName(List<Song> SongList, int SongId)
     Element<Song> *t = SongList.GetFirst();
     while (t)
     {
-        if (SongId == t->data.GetId())
+        if (SongId == t->data.GetId()) // В случае нахождения элемента
             return (t->data.GetName());
         t = t->next;
     }
@@ -24,7 +24,7 @@ std::string Process::SearchName(List<Author> AuthorList, int AuthorId)
     Element<Author> *t = AuthorList.GetFirst();
     while (t)
     {
-        if (AuthorId == t->data.GetId())
+        if (AuthorId == t->data.GetId()) // В случае нахождения элемента
             return (t->data.GetName());
         t = t->next;
     }
@@ -36,7 +36,7 @@ std::string Process::SearchName(List<Disk> DiskList, int DiskId)
     Element<Disk> *t = DiskList.GetFirst();
     while (t)
     {
-        if (DiskId == t->data.GetId())
+        if (DiskId == t->data.GetId()) // В случае нахождения элемента
             return (t->data.GetName());
         t = t->next;
     }
@@ -50,7 +50,7 @@ Element<Author> *Process::SearchElemetById(List<Author> AuthorList, int AuthorId
     Element<Author> *t = AuthorList.GetFirst();
     while (t)
     {
-        if (AuthorId == t->data.GetId())
+        if (AuthorId == t->data.GetId()) // В случае нахождения элемента
             return t;
         t = t->next;
     }
@@ -62,7 +62,7 @@ Element<Disk> *Process::SearchElemetById(List<Disk> DiskList, int DiskId)
     Element<Disk> *t = DiskList.GetFirst();
     while (t)
     {
-        if (DiskId == t->data.GetId())
+        if (DiskId == t->data.GetId()) // В случае нахождения элемента
             return t;
         t = t->next;
     }
@@ -74,7 +74,7 @@ Element<Song> *Process::SearchElemetById(List<Song> SongList, int SongId)
     Element<Song> *t = SongList.GetFirst();
     while (t)
     {
-        if (SongId == t->data.GetId())
+        if (SongId == t->data.GetId()) // В случае нахождения элемента
             return t;
         t = t->next;
     }
